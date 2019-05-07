@@ -1,52 +1,63 @@
 ##
 ## EPITECH PROJECT, 2019
-## minishell1
+## PSU_minishell2_2018
 ## File description:
-## makefile
+## Makefile
 ##
 
-NAME	=	mysh
+SRC					=					src/commands_parser.c					\
+										src/main.c								\
+										src/multi_commands.c					\
+										src/run.c								\
+										src/shell.c								\
+										src/commands/change_dir.c				\
+										src/commands/exec_from_path.c			\
+										src/commands/execmd.c					\
+										src/commands/get_out.c					\
+										src/commands/print_env.c				\
+										src/commands/set_env.c					\
+										src/commands/unset_env.c				\
+										src/dividers/exec_it.c					\
+										src/dividers/redirect_it.c				\
+										src/dividers/repartition.c				\
+										src/globals/globals.c					\
+										src/utils/env_actions.c					\
+										src/utils/env.c							\
+										src/utils/errors.c						\
+										src/utils/linked_list.c					\
+										src/utils/paths.c						\
+										src/utils/pwd.c							\
+										src/utils/string/double_array.c			\
+										src/utils/string/get_next_line.c		\
+										src/utils/string/merge.c				\
+										src/utils/string/my_getnbr.c			\
+										src/utils/string/my_strdup.c			\
+										src/utils/string/string.c				\
 
-CC		=	gcc
+OBJ					=					$(SRC:.c=.o)
 
-RM		=	rm -f
+NAME				=					mysh
 
-SRCS	=	./src/main.c					\
-			./src/cd.c						\
-			./src/env.c						\
-			./src/setenv.c					\
-			./src/execve.c					\
-			./src/unsetenv.c				\
-			./src/check_str.c				\
-			./src/my_exit.c					\
-			./src/my_strcat.c				\
-			./src/my_putchar.c				\
-			./src/my_strcmp.c				\
-			./src/my_strncmp.c				\
-			./src/my_strlen.c				\
-			./src/my_strdup.c				\
-			./src/copy_env.c				\
-			./src/my_putstr.c				\
-			./src/monitoring.c				\
-			./src/parsing_env.c				\
-			./src/my_str_to_word_array.c
+CFLAGS				=					-Iinclude -g3 #-Wall -Wextra
 
-OBJS	=	$(SRCS:.c=.o)
+LDFLAGS				=					-L./lib/ -lgarbage
 
-CFLAGS	=	-I ./include/
-CFLAGS	+=	-W -Wall -Wextra
+CC					=					gcc
 
-all:	$(NAME)
+all :				$(NAME)
 
-$(NAME):	$(OBJS)
-	$(CC) $(OBJS) -o $(NAME)
+$(NAME) :			$(OBJ)
+	$(CC) -o $(NAME) $(OBJ)
 
-clean:
-	$(RM) $(OBJS)
+clean :
+	rm -f $(OBJ)
 
-fclean:	clean
-	$(RM) $(NAME)
+fclean :			clean
+	rm -f $(NAME)
 
-re:	fclean all
+re :				fclean all
 
-.PHONY:	all clean fclean re
+mouli :
+	@./tests/mouli ./ --clean
+
+.PHONY :			all $(NAME) clean fclean all

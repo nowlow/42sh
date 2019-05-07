@@ -1,0 +1,251 @@
+#!/bin/bash
+
+################################################ CHANGE HERE BINARY NAME ################################################
+bin_name=mysh
+#########################################################################################################################
+
+## COLORS DEFINITIONS
+GREEN="$(tput setaf 2)"
+ORANGE="$(tput setaf 3)"
+RED="$(tput setaf 1)"
+RESET="$(tput sgr0)"
+
+# BUILD PATH OF THE BINARY FILE
+if [ ! -z $1 ] && [ -d $1 ]
+then
+    path_to=$1
+else
+    path_to=../
+fi
+path=$path_to$bin_name
+
+# PRINT AND MAKE BINARY FROM PATH
+printf "make -C $path_to"
+make -C $path_to &> .make.log
+echo -e "\r[ binary : $path ]"
+echo ""
+
+# CHECK IF THE BINRARY IS EXECUTABLE
+if [ ! -x $path ]
+then
+    echo "$path is not a binary."
+    exit 1
+fi
+
+path='timeout 3 '$path
+
+# DEFINES REFERECE SHELL TO TCSH
+shell=tcsh
+
+# COUNT INITIALISATION
+passed_tests_count=0
+tests_count=0
+
+################################################ TESTING FUNCTIONS ################################################
+test_command_display() {
+    local mysh=` echo -e $1 | $path &> .mysh `
+    local tcsh=` echo -e $1 | $shell &> .tcsh `
+
+    tests_count=$(($tests_count+1))
+    if diff .mysh .tcsh &> .diff.log
+    then
+        echo -e "    [display:${GREEN}OK${RESET}]\t'$1': test passed"
+        passed_tests_count=$(($passed_tests_count+1))
+    else
+        echo -e "    [display:${RED}KO${RESET}]\t'$1': test failed"
+    fi
+    rm -f .diff.log
+    rm -f .mysh
+    rm -f .tcsh
+}
+
+test_command_display_2_commands() {
+    local mysh=`( ( echo -e $1 && echo -e $2 ) | $path ) &> .mysh `
+    local tcsh=`( ( echo -e $1 && echo -e $2 ) | $shell ) &> .tcsh `
+
+    tests_count=$(($tests_count+1))
+    if diff .mysh .tcsh &> .diff.log
+    then
+        echo -e "    [display:${GREEN}OK${RESET}]\t'$1' then '$2': test passed"
+        passed_tests_count=$(($passed_tests_count+1))
+    else
+        echo -e "    [display:${RED}KO${RESET}]\t'$1' then '$2': test failed"
+    fi
+    rm -f .diff.log
+    rm -f .mysh
+    rm -f .tcsh
+}
+
+test_command_display_3_commands() {
+    local mysh=`( ( echo -e $1 && echo -e $2 && echo -e $3 ) | $path ) &> .mysh `
+    local tcsh=`( ( echo -e $1 && echo -e $2 && echo -e $3 ) | $shell ) &> .tcsh `
+
+    tests_count=$(($tests_count+1))
+    if diff .mysh .tcsh &> .diff.log
+    then
+        echo -e "    [display:${GREEN}OK${RESET}]\t'$1' then '$2': test passed"
+        passed_tests_count=$(($passed_tests_count+1))
+    else
+        echo -e "    [display:${RED}KO${RESET}]\t'$1' then '$2': test failed"
+    fi
+    rm -f .diff.log
+    rm -f .mysh
+    rm -f .tcsh
+}
+
+test_command_return_value() {
+    local mysh=` echo -e $1 | $path ; echo $? `
+    local tcsh=` echo -e $1 | $shell ; echo $? `
+
+    tests_count=$(($tests_count+1))
+    if test $mysh -eq $tcsh
+    then
+        echo -e "    [return:${GREEN}OK${RESET}]\t\t'$1': test passed"
+        passed_tests_count=$(($passed_tests_count+1))
+    else
+        echo -e "    [return:${RED}KO${RESET}]\t\t'$1': test failed - exit status $mysh"
+    fi
+}
+
+test_command_return_value_2_commands() {
+    local mysh=` ( ( echo -e $1 && echo -e $2 ) | $path &> /dev/null ) ; echo $? `
+    local tcsh=` ( ( echo -e $1 && echo -e $2 ) | $shell &> /dev/null ) ; echo $? `
+
+    tests_count=$(($tests_count+1))
+    if test $mysh -eq $tcsh
+    then
+        echo -e "    [return:${GREEN}OK${RESET}]\t\t'$1' then '$2': test passed"
+        passed_tests_count=$(($passed_tests_count+1))
+    else
+        echo -e "    [return:${RED}KO${RESET}]\t\t'$1' then '$2': test failed - exit status $mysh"
+    fi
+}
+
+test_substring_exists() {
+    local mysh=` ( echo -e $1 | $path ) &> .file.log `
+
+    tests_count=$(($tests_count+1))
+    if [[ "$mysh" == *"$2"* ]]
+    then
+        echo -e "    [substring:${GREEN}OK${RESET}]\t'$1': test passed"
+        passed_tests_count=$(($passed_tests_count+1))
+    else
+        echo -e "    [substring:${RED}KO${RESET}]\t'$1': test failed"
+        echo -e "    \t\tcan't find line [$2]"
+    fi
+}
+
+test_substring_exists_2_commands() {
+    local mysh=` ( echo -e $1 && echo -e $2 ) | $path `
+
+    tests_count=$(($tests_count+1))
+    if [[ $mysh == *"$3"* ]]
+    then
+        echo -e "    [substring:${GREEN}OK${RESET}]\t'$1': test passed"
+        passed_tests_count=$(($passed_tests_count+1))
+    else
+        echo -e "    [substring:${RED}KO${RESET}]\t'$1' then '$2': test failed - can't find [$3]"
+    fi
+}
+
+echo "== B-PSU-210 MiniShell 2 =="
+echo ""
+
+# ===================================================== TESTS ===================================================== #
+
+# basics tests
+echo "Basic tests :"
+echo ""
+test_command_display ""
+test_command_display "ls --color=never"
+test_command_display "zuborg"
+echo ""
+
+# exit tests
+echo "Exit tests"
+test_command_return_value "exit"
+test_command_return_value "exit 42"
+test_command_return_value "exit 324"
+
+# formatting tests
+echo "Formating tests :"
+echo ""
+test_command_display "ls\t\t     \t   --color=never                                        -l"
+test_command_display "\tls\t\t--color=never\t-l\t\t"
+echo ""
+
+# cd tests
+echo "Built-in cd :"
+echo ""
+test_command_return_value "cd"
+test_command_return_value "cd .."
+test_command_display "cd bad_file"
+test_command_display "pwd"
+test_command_display "cd ~"
+test_command_display_3_commands "cd .." "cd -" "pwd"
+test_command_display_2_commands "cd .." "pwd"
+test_command_display_2_commands "cd" "pwd"
+echo ""
+
+# env tests
+echo "Built-in env , setenv and unsetenv:"
+echo ""
+test_command_return_value "setenv LVL"
+test_command_return_value "unsetenv NAME"
+test_command_display "unsetenv MATE"
+test_substring_exists_2_commands "setenv PEWDIEPIE 1st" "env" "PEWDIEPIE=1st"
+test_command_display_2_commands "unsetenv PATH" "ls --color=never"
+test_command_return_value_2_commands "unsetenv PATH" "ls"
+test_command_display "setenv 1YES"
+test_command_display "setenv SUB-TO-PEWDIEPIE"
+test_command_display "setenv SUB_TO_PEWDIEPIE"
+test_command_display "setenv _TGAY"
+test_command_return_value "unsetenv NOT_SET"
+test_command_display "unsetenv NOT_SET"
+test_command_return_value_2_commands "setenv COUCOU" "unsetenv COUCOU"
+test_substring_exists_2_commands "setenv COUCOU" "env" "COUCOU="
+echo ""
+
+# separator tests
+echo "Separator:"
+echo ""
+test_command_display "ls --color=never ; ls --color=never"
+test_command_display "cd .. ; pwd ; cd / ; pwd ; cd ; pwd"
+echo ""
+
+# pipe tests
+echo "Pipes:"
+echo ""
+test_command_display "cat Makefile | grep --color=never SRC"
+echo ""
+
+# ================================================== END OF TESTS ================================================== #
+
+if test $# -ge 1
+then
+    if [[ $* == *"--clean"* ]]
+    then
+        make fclean -C $path_to &>> .make.log
+    fi
+    if [[ $* == *"--log"* ]]
+    then
+        echo "== BUILD LOG =="
+        echo ""
+        cat .make.log
+        echo ""
+    fi
+fi
+
+rm -f .make.log
+
+percent=$(awk "BEGIN { pc=100*${passed_tests_count}/${tests_count}; i=int(pc); print (pc-i<0.5)?i:i+1 }")
+if test $percent -ge 75
+then
+    p_color=${GREEN}
+elif test $percent -ge 25
+then
+    p_color=${ORANGE}
+else
+    p_color=${RED}
+fi
+echo "$p_color$percent%${RESET} - $passed_tests_count on $tests_count"
