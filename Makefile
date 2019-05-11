@@ -33,6 +33,11 @@ SRC					=					src/commands_parser.c					\
 										src/utils/string/my_getnbr.c			\
 										src/utils/string/my_strdup.c			\
 										src/utils/string/string.c				\
+										src/prompt/display.c					\
+										src/prompt/key.c						\
+										src/prompt/prompt.c						\
+										src/prompt/strings.c					\
+										src/prompt/termios.c					\
 
 OBJ					=					$(SRC:.c=.o)
 
@@ -40,14 +45,14 @@ NAME				=					mysh
 
 CFLAGS				=					-Iinclude -g3 #-Wall -Wextra
 
-LDFLAGS				=					-L./lib/ -lgarbage
+LIBS				=					-lncurses
 
 CC					=					gcc
 
 all :				$(NAME)
 
 $(NAME) :			$(OBJ)
-	$(CC) -o $(NAME) $(OBJ)
+	$(CC) -o $(NAME) $(OBJ) $(LIBS)
 
 clean :
 	rm -f $(OBJ)
