@@ -41,7 +41,7 @@ SRC					=					src/commands_parser.c					\
 
 OBJ					=					$(SRC:.c=.o)
 
-NAME				=					mysh
+NAME				=					42sh
 
 CFLAGS				=					-Iinclude -g3 #-Wall -Wextra
 

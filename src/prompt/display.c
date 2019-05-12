@@ -9,10 +9,12 @@
 #include <sys/ioctl.h>
 #include <stddef.h>
 
-void clrscr(void)
+void clrscr(char key)
 {
-    char *str = "\e[1;1H\e[2J";
+    char *str = (key == 12) ? "\e[1;1H\e[2J" : "\n";
 
+    printf("[%d]", key);
+    fflush(stdout);
     write(1, str, strlen(str));
 }
 

@@ -19,6 +19,7 @@
 #include <signal.h>
 #include "shell.h"
 #include "get_next_line.h"
+#include "prompt.h"
 
 void print_prompt(char *prompt, env_t *env, int ret)
 {
@@ -45,11 +46,6 @@ void print_prompt(char *prompt, env_t *env, int ret)
 
 void signal_handle(int sig)
 {
-    (void) sig;
-    if (isatty(0)) {
-        write(1, "\b\b  \n", 5);
-        print_prompt(PROMPT, NULL, 1);
-    }
 }
 
 int run_shell(shell_t *shell)
@@ -60,13 +56,8 @@ int run_shell(shell_t *shell)
     int ret = 0;
 
     signal(SIGINT, signal_handle);
-    do {
-        if (entry)
-            free(entry);
-        if (isatty(0))
-            print_prompt(shell->prompt, shell->env, ret);
-        entry = get_next_line(0);
-        if (entry != NULL && entry[0] != '\0') {
+    while (shell->will_exit != 1 && (entry = user_entry())) {
+        if (entry[0] != '\0') {
             cmd = my_array_to_cmd(entry);
             tmp = cmd;
             while (tmp) {
@@ -76,6 +67,6 @@ int run_shell(shell_t *shell)
             ret = execmd(cmd, shell);
             cmd_destroy(cmd);
         }
-    } while (shell->will_exit != 1 && entry);
+    }
     return (shell->will_exit == 1) ? ret : 0;
 }

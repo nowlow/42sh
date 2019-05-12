@@ -20,7 +20,7 @@ typedef struct termios termios_t;
 
 #define IS_PRINTABLE(c) (c >= 32 && c <= 126 || c == 0 || c == '\t') ? 1 : 0
 
-void clrscr(void);
+void clrscr(char key);
 char *strespace(char *str, size_t str_size, size_t n, char c);
 char *strdespace(char *str, size_t str_size, size_t n, char key);
 void strcrput(size_t size, char c);

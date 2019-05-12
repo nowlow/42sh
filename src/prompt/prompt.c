@@ -38,11 +38,11 @@ char *prompt(char *display)
     do {
         if (key == 4)
             return NULL;
-        if (key != 12) {
+        if (key != 12 && key != 3) {
             str = refund_str(str, key, &cursor_pos);
             max_size += (strlen(str) >= max_size) ? 1 : 0;
         } else
-            clrscr();
+            clrscr(key);
         update_prompt(str, display, &cursor_pos, max_size);
     } while ((key = get_key()) != '\n');
     write(1, "\n", 1);
