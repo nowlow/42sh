@@ -185,6 +185,7 @@ test_command_display "cd ~"
 test_command_display_3_commands "cd .." "cd -" "pwd"
 test_command_display_2_commands "cd .." "pwd"
 test_command_display_2_commands "cd" "pwd"
+test_command_display "cd\npwd\ncd ..\npwd"
 echo ""
 
 # env tests

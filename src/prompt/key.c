@@ -33,7 +33,7 @@ char get_key(void)
 
     read(0, &c, 3);
     if (c[1] == 0)
-        return c[0];
+        return (c[0] != '\t') ? c[0] : ' ';
     return find_key(c);
 }
 

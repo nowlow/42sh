@@ -46,6 +46,7 @@ void print_prompt(char *prompt, env_t *env, int ret)
 
 void signal_handle(int sig)
 {
+    (int)sig;
 }
 
 int run_shell(shell_t *shell)

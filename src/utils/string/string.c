@@ -9,10 +9,14 @@
 
 size_t my_strlen(char const *str)
 {
-    size_t size = 0;
+    size_t final_size = 0;
 
-    for (; str && str[size]; size++);
-    return size;
+    for (int size = 0; str && str[size]; size++) {
+        if (str[size] == '\t')
+            final_size += 3;
+        final_size += 1;
+    }
+    return final_size;
 }
 
 void my_putstr(char const *str)

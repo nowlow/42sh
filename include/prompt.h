@@ -27,6 +27,6 @@ void strcrput(size_t size, char c);
 char get_key(void);
 void handle_special_keys(char *str, char key, unsigned int *pos);
 char *user_entry(void);
-void update_prompt(char *str, char *prompt, int *pos, int max_size);
+void update_prompt(char *str, char *prompt, int *pos);
 
 #endif /* !PROMPT_H_ */

@@ -32,18 +32,16 @@ char *prompt(char *display)
     char *str = malloc(1);
     unsigned int cursor_pos = 0;
     char key = 0;
-    unsigned int max_size = 1;
 
     str[0] = 0;
     do {
         if (key == 4)
             return NULL;
-        if (key != 12 && key != 3) {
+        if (key != 12 && key != 3)
             str = refund_str(str, key, &cursor_pos);
-            max_size += (strlen(str) >= max_size) ? 1 : 0;
-        } else
+        else
             clrscr(key);
-        update_prompt(str, display, &cursor_pos, max_size);
+        update_prompt(str, display, &cursor_pos);
     } while ((key = get_key()) != '\n');
     write(1, "\n", 1);
     return str;
