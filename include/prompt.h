@@ -26,7 +26,7 @@ char *strdespace(char *str, size_t str_size, size_t n, char key);
 void strcrput(size_t size, char c);
 char get_key(void);
 void handle_special_keys(char *str, char key, unsigned int *pos);
-char *user_entry(void);
+char *user_entry(char *display);
 void update_prompt(char *str, char *prompt, int *pos);
 
 #endif /* !PROMPT_H_ */

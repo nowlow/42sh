@@ -47,14 +47,14 @@ char *prompt(char *display)
     return str;
 }
 
-char *user_entry(void)
+char *user_entry(char *display)
 {
     size_t nread = 0;
     char *command = NULL;
     size_t len = 0;
 
     if (isatty(0))
-        return prompt("> ");
+        return prompt(display);
     nread = getline(&command, &len, stdin);
     if (nread == -1)
         return NULL;
