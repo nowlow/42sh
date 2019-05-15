@@ -7,8 +7,8 @@
 
 #include "shell_manager.h"
 #include "shell.h"
-#include "prompt.h"
-#include "termkey.h"
+#include "prompt/prompt.h"
+#include "prompt/termkey.h"
 
 int main(int argc, char **argv, char **env)
 {

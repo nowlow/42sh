@@ -28,5 +28,6 @@ char get_key(void);
 void handle_special_keys(char *str, char key, unsigned int *pos);
 char *user_entry(char *display);
 void update_prompt(char *str, char *prompt, int *pos);
+int key_cursor(char key);
 
 #endif /* !PROMPT_H_ */

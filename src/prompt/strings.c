@@ -8,6 +8,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <string.h>
+#include "prompt/entry_edit.h"
 
 char *strespace(char *str, size_t str_size, size_t n, char c)
 {
@@ -32,22 +33,16 @@ char *strespace(char *str, size_t str_size, size_t n, char c)
 
 char *strdespace(char *str, size_t str_size, size_t n, char key)
 {
-    int minus = 2;
+    int keys_tab[] = {127, 21, 11, 0};
+    char *(*funcs[])(char *, size_t, size_t) = {
+        &delete_one, &delete_all, &delete_from_cursor_pos
+    };
 
-    if (key == 127) {
-        for (int i = n - minus; str[i + 1]; i++)
-            str[i] = str[i + 1];
-        if (str_size)
-            str[str_size - 1] = 0;
-    }
-    if (key == 21) {
-        free(str);
-        str = malloc(1);
-        str[0] = 0;
-    }
-    if (key == 11) {
-        str[n - 1] = 0;
-        str = realloc(str, n - 1);
+    for (int i = 0; keys_tab[i]; i++) {
+        if (key == keys_tab[i]) {
+            str = funcs[i](str, str_size, n);
+            return str;
+        }
     }
     return str;
 }

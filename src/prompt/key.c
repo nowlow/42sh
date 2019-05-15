@@ -7,7 +7,8 @@
 
 #include <string.h>
 #include <unistd.h>
-#include "keys.h"
+#include "prompt/keys.h"
+#include "prompt/cursor.h"
 
 static int key_match(char const k1[4], char const k2[4])
 {
@@ -37,19 +38,25 @@ char get_key(void)
     return find_key(c);
 }
 
+int key_cursor(char key)
+{
+    char keys_tab[] = {-1, -2, -3, -4, 1, 5, 0};
+
+    for (int i = 0; keys_tab[i]; i++) {
+        if (keys_tab[i] == key)
+            return i + 1;
+    }
+    return 0;
+}
+
 void handle_special_keys(char *str, char key, unsigned int *pos)
 {
-    int cursor_pos = *pos;
+    void (*funcs[])(char *, unsigned int *) = {
+        &up_arrow, &left_arrow, &down_arrow,
+        &right_arrow, &goto_start, &goto_end
+    };
+    int got = key_cursor(key) - 1;
 
-    switch (key) {
-    case LEFT_ARROW:
-        cursor_pos -= (cursor_pos > 1) ? 1 : 0;
-        break;
-    case RIGHT_ARROW:
-        cursor_pos += (cursor_pos < strlen(str) + 1) ? 1 : 0;
-        break;
-    default:
-        break;
-    }
-    *pos = cursor_pos;
+    if (got != -1)
+        funcs[got](str, pos);
 }

@@ -5,7 +5,7 @@
 ** display
 */
 
-#include "prompt.h"
+#include "prompt/prompt.h"
 #include <sys/ioctl.h>
 #include <stddef.h>
 #include "utils.h"

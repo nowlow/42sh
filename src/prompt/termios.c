@@ -12,7 +12,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <unistd.h>
-#include "prompt.h"
+#include "prompt/prompt.h"
 
 termios_t *get_termios(void)
 {

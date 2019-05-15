@@ -37,8 +37,11 @@ SRC					=					src/commands_parser.c					\
 										src/prompt/display.c					\
 										src/prompt/key.c						\
 										src/prompt/prompt.c						\
+										src/prompt/str_key_edit.c				\
 										src/prompt/strings.c					\
 										src/prompt/termios.c					\
+										src/prompt/cursor/arrows.c				\
+										src/prompt/cursor/commands.c			\
 
 OBJ					=					$(SRC:.c=.o)
 

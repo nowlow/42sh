@@ -6,14 +6,14 @@
 */
 
 #include <string.h>
-#include "prompt.h"
+#include "prompt/prompt.h"
 
 static char *refund_str(char *str, char key, unsigned int *pos)
 {
     unsigned int cursor_pos = *pos;
     size_t size = strlen(str);
 
-    if (key >= 0) {
+    if (!key_cursor(key)) {
         if (IS_PRINTABLE(key)) {
             str = strespace(str, size, cursor_pos, key);
             cursor_pos += 1;

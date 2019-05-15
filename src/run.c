@@ -22,7 +22,7 @@
 #include <signal.h>
 #include "shell.h"
 #include "get_next_line.h"
-#include "prompt.h"
+#include "prompt/prompt.h"
 
 char *get_currentwdir(env_t *env)
 {
