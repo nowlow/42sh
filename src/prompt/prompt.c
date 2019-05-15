@@ -20,6 +20,7 @@ static char *refund_str(char *str, char key, unsigned int *pos)
         } else if (cursor_pos > 0) {
             str = strdespace(str, size, cursor_pos, key);
             cursor_pos -= (cursor_pos > 1 && key == 127) ? 1 : 0;
+            cursor_pos = (key == 21) ? 1 : cursor_pos;
         }
     } else
         handle_special_keys(str, key, &cursor_pos);

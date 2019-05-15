@@ -27,6 +27,7 @@ SRC					=					src/commands_parser.c					\
 										src/utils/linked_list.c					\
 										src/utils/paths.c						\
 										src/utils/pwd.c							\
+										src/utils/string/count_cols.c			\
 										src/utils/string/double_array.c			\
 										src/utils/string/get_next_line.c		\
 										src/utils/string/merge.c				\

@@ -40,6 +40,15 @@ char *strdespace(char *str, size_t str_size, size_t n, char key)
         if (str_size)
             str[str_size - 1] = 0;
     }
+    if (key == 21) {
+        free(str);
+        str = malloc(1);
+        str[0] = 0;
+    }
+    if (key == 11) {
+        str[n - 1] = 0;
+        str = realloc(str, n - 1);
+    }
     return str;
 }
 

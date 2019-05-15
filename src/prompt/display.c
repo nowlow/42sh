@@ -46,8 +46,8 @@ void update_prompt(char *str, char *prompt, int *pos)
     strcrput(w.ws_col, ' ');
     write(1, "\r", 1);
     write(1, prompt, strlen(prompt));
-    if (my_strlen(str) + strlen(prompt) > w.ws_col - 4) {
-        put_long_str(&w, str, strlen(prompt), pos);
+    if (count_cols(str) + count_cols(prompt) > w.ws_col - 4) {
+        put_long_str(&w, str, count_cols(prompt), pos);
     } else
         write(1, str, strlen(str));
     strcrput(strlen(str) - (*pos - 1), '\b');

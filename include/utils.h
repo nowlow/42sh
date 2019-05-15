@@ -22,7 +22,7 @@ void my_putstr(char const *str);
 void my_puterr(char const *str);
 
 /// concatenates 2 string in a third
-char *my_strmerge(char const *s1, char const *s2);
+char *my_strmerge(char *s1, char *s2);
 
 /// returns a char **'s lenght
 int double_array_len(char **var);
@@ -38,5 +38,8 @@ int my_strncmp(char const *s1, char const *s2, int n);
 
 /// Compare two strings
 int my_strcmp(char const *s1, char const *s2);
+
+/// Count columns that take a string
+size_t count_cols(char const *str);
 
 #endif /* !UTILS_H_ */
