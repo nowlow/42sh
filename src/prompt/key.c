@@ -40,7 +40,7 @@ char get_key(void)
 
 int key_cursor(char key)
 {
-    char keys_tab[] = {-1, -2, -3, -4, 1, 5, 0};
+    char keys_tab[] = {-1, -2, -3, -4, 1, 5, -5, -6, 0};
 
     for (int i = 0; keys_tab[i]; i++) {
         if (keys_tab[i] == key)
@@ -53,7 +53,8 @@ void handle_special_keys(char *str, char key, unsigned int *pos)
 {
     void (*funcs[])(char *, unsigned int *) = {
         &up_arrow, &left_arrow, &down_arrow,
-        &right_arrow, &goto_start, &goto_end
+        &right_arrow, &goto_start, &goto_end,
+        &goto_start, &goto_end
     };
     int got = key_cursor(key) - 1;
 
