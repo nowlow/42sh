@@ -17,7 +17,7 @@ static int is_alphanumeric(char str)
 {
     if (str >= 'A' && str <= 'Z'
         || str >= 'a' && str <= 'z'
-        || str >= '0' && str <= '9'){
+        || str >= '0' && str <= '9') {
         return (1);
     } else
         return (0);

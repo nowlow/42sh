@@ -16,7 +16,7 @@
 
 char **my_str_to_word_array(char const *str, char c);
 char *epur_str(char *str);
-int mid_pipe(char **av, int out);
+int mid_pipe(char **av, int out, int ac);
 
 int close_pipe(char **av, int out)
 {
@@ -39,9 +39,9 @@ int close_pipe(char **av, int out)
     return (84);
 }
 
-int mid_pipe(char **av, int out)
+int mid_pipe(char **av, int out, int ac)
 {
-    char **arguments = my_str_to_word_array(epur_str(av[2]), (' '));
+    char **arguments = my_str_to_word_array(epur_str(av[ac]), (' '));
     int tube[2];
     pid_t pid;
 
@@ -72,9 +72,6 @@ int mid_pipe(char **av, int out)
 	perror("Pere : erreur lors de la fermeture du tube en lecture ");
 	exit(EXIT_FAILURE);
     }
-//    if(execve(arguments[0], arguments, NULL) == -1) {
-//	perror("Pere : erreur lors de l'execution de wc ");
-//    }
     if(dup2(out, STDOUT_FILENO) == -1) {
         perror("Fils : erreur lors de la duplication du descripteur ");
         return (84);
@@ -92,11 +89,11 @@ int mid_pipe(char **av, int out)
     return (84);
 }
 
-int create_pipe(char **av)
+int create_pipe(char **av, int ac)
 {
     int tube[2];
     pid_t pid;
-    char **arguments = my_str_to_word_array(epur_str(av[3]), (' '));
+    char **arguments = my_str_to_word_array(epur_str(av[ac]), (' '));
 
     if(pipe(tube) == -1) {
 	perror("Pere : erreur lors de la creation du tube ");
@@ -111,7 +108,10 @@ int create_pipe(char **av)
             perror("Fils : erreur lors de la fermeture du tube en lecture ");
             return (84);
         }
-        mid_pipe(av, tube[TUBE_ECRITURE]);
+        while (ac > 1) {
+            ac--;
+            mid_pipe(av, tube[TUBE_ECRITURE], ac);
+        }
     }
     if(close(tube[TUBE_ECRITURE]) == -1) {
 	perror("Pere : erreur lors de la fermeture du tube en ecriture ");
@@ -132,8 +132,10 @@ int create_pipe(char **av)
 
 int main(int ac, char **av)
 {
-    if (ac != 4)
+    int i = ac - 1;
+
+    if (ac < 3)
         return (84);
-    create_pipe(av);
+    create_pipe(av, i);
     return (0);
 }
