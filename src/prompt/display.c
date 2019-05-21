@@ -27,13 +27,6 @@ void prompt_put_str(winsize_t *w, char *str, size_t prompt_size, cpos_t *pos)
         write(1, str, strsize);
         return;
     }
-    if (pos->cursor > 1) {
-        write(1, &str[size_out], strsize - size_out);
-    } else if (pos->cursor == 0 && pos->string != 0) {
-        write(1, &str[size_out], w->ws_col);
-    } else {
-        write(1, str, w->ws_col - prompt_size);
-    }
 }
 
 void update_prompt(char *str, char *prompt, cpos_t *pos, winsize_t *w)
@@ -52,10 +45,5 @@ void update_prompt(char *str, char *prompt, cpos_t *pos, winsize_t *w)
     write(1, "\r", 1);
     write(1, prompt, strlen(prompt));
     prompt_put_str(w, str, count_cols(prompt), pos);
-    // if (size + count_cols(prompt) < w->ws_col)
-    // printf("[%d]", size - ref - (correct_pos - 1));
-    // fflush(stdout);
-        strcrput((size - ref - (correct_pos - 1)), '\b');
-    // else
-    //     strcrput(w->ws_col - correct_pos, '\b');
+    strcrput((size - ref - (correct_pos - 1)), '\b');
 }

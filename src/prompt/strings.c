@@ -13,19 +13,18 @@
 
 char *strespace(char *str, cpos_t *pos, char c, winsize_t *w)
 {
-    size_t str_size = strlen(str);
+    size_t str_size = (str) ? strlen(str) : 0;
     char *tmp = strdup(str);
 
+    if (str_size + pos->prompt > w->ws_col)   
+        return str;
     if (str_size > 0)
         str = realloc(str, str_size + 2);
     else {
         str = malloc(2);
         str[0] = 0;
     }
-    if (pos->string)
-        str[pos->string - 1] = c;
-    else
-        str[0] = c;
+    str[(pos->string) ? pos->string - 1 : 0] = c;
     str[str_size + 1] = 0;
     for (int i = pos->string - 1; i < str_size; i++)
         str[i + 1] = tmp[i];
