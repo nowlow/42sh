@@ -6,19 +6,16 @@
 */
 
 #include <string.h>
+#include "prompt/prompt.h"
 
-void goto_start(char *str, unsigned int *pos)
+void goto_start(char *str, cpos_t *pos, winsize_t *w)
 {
-    unsigned int cursor_pos = *pos;
-
-    cursor_pos = 1;
-    *pos = cursor_pos;
+    pos->cursor = 1;
+    pos->string = 1;
 }
 
-void goto_end(char *str, unsigned int *pos)
+void goto_end(char *str, cpos_t *pos, winsize_t *w)
 {
-    unsigned int cursor_pos = *pos;
-
-    cursor_pos = strlen(str) + 1;
-    *pos = cursor_pos;
+    pos->string = strlen(str) + 1;
+    pos->cursor = (pos->string < w->ws_col) ? pos->string : w->ws_col;
 }

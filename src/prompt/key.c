@@ -49,9 +49,9 @@ int key_cursor(char key)
     return 0;
 }
 
-void handle_special_keys(char *str, char key, unsigned int *pos)
+void handle_special_keys(char *str, char key, cpos_t *pos, winsize_t *w)
 {
-    void (*funcs[])(char *, unsigned int *) = {
+    void (*funcs[])(char *, cpos_t *, winsize_t *) = {
         &up_arrow, &left_arrow, &down_arrow,
         &right_arrow, &goto_start, &goto_end,
         &goto_start, &goto_end
@@ -59,5 +59,5 @@ void handle_special_keys(char *str, char key, unsigned int *pos)
     int got = key_cursor(key) - 1;
 
     if (got != -1)
-        funcs[got](str, pos);
+        funcs[got](str, pos, w);
 }

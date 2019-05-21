@@ -9,9 +9,11 @@
 #include <unistd.h>
 #include <string.h>
 #include "prompt/entry_edit.h"
+#include "prompt/prompt.h"
 
-char *strespace(char *str, size_t str_size, size_t n, char c)
+char *strespace(char *str, cpos_t *pos, char c, winsize_t *w)
 {
+    size_t str_size = strlen(str);
     char *tmp = strdup(str);
 
     if (str_size > 0)
@@ -20,27 +22,30 @@ char *strespace(char *str, size_t str_size, size_t n, char c)
         str = malloc(2);
         str[0] = 0;
     }
-    if (str_size)
-        str[n - 1] = c;
+    if (pos->string)
+        str[pos->string - 1] = c;
     else
         str[0] = c;
     str[str_size + 1] = 0;
-    for (int i = n - 1; i < str_size; i++)
+    for (int i = pos->string - 1; i < str_size; i++)
         str[i + 1] = tmp[i];
     free(tmp);
+    pos->string += 1;
+    pos->cursor += (pos->cursor <= w->ws_col - pos->prompt) ? 1 : 0;
     return str;
 }
 
-char *strdespace(char *str, size_t str_size, size_t n, char key)
+char *strdespace(char *str, cpos_t *pos, char key, winsize_t *w)
 {
+    size_t str_size = (str) ? strlen(str) : 0;
     int keys_tab[] = {127, 21, 11, 0};
-    char *(*funcs[])(char *, size_t, size_t) = {
+    char *(*funcs[])(char *, size_t, cpos_t *) = {
         &delete_one, &delete_all, &delete_from_cursor_pos
     };
 
     for (int i = 0; keys_tab[i]; i++) {
         if (key == keys_tab[i]) {
-            str = funcs[i](str, str_size, n);
+            str = funcs[i](str, str_size, pos);
             return str;
         }
     }
@@ -49,7 +54,7 @@ char *strdespace(char *str, size_t str_size, size_t n, char key)
 
 void strcrput(size_t size, char c)
 {
-    char str[size];
+    char str[size + 1];
 
     for (int i = 0; i < size; i++)
         str[i] = c;

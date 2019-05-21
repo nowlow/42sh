@@ -8,11 +8,13 @@
 #ifndef CURSOR_H_
 #define CURSOR_H_
 
-void down_arrow(char *str, unsigned int *pos);
-void up_arrow(char *str, unsigned int *pos);
-void right_arrow(char *str, unsigned int *pos);
-void left_arrow(char *str, unsigned int *pos);
-void goto_start(char *str, unsigned int *pos);
-void goto_end(char *str, unsigned int *pos);
+#include "prompt.h"
+
+void down_arrow(char *str, cpos_t *pos, winsize_t *w);
+void up_arrow(char *str, cpos_t *pos, winsize_t *w);
+void right_arrow(char *str, cpos_t *pos, winsize_t *w);
+void left_arrow(char *str, cpos_t *pos, winsize_t *w);
+void goto_start(char *str, cpos_t *pos, winsize_t *w);
+void goto_end(char *str, cpos_t *pos, winsize_t *w);
 
 #endif /* !CURSOR_H_ */

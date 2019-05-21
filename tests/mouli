@@ -98,7 +98,7 @@ test_command_return_value() {
     local tcsh=` echo -e $1 | $shell ; echo $? `
 
     tests_count=$(($tests_count+1))
-    if test $mysh -eq $tcsh
+    if [ $mysh -eq $tcsh ]
     then
         echo -e "    [return:${GREEN}OK${RESET}]\t\t'$1': test passed"
         passed_tests_count=$(($passed_tests_count+1))

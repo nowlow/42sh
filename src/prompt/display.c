@@ -9,6 +9,7 @@
 #include <sys/ioctl.h>
 #include <stddef.h>
 #include "utils.h"
+#include <stdio.h>
 
 void clrscr(char key)
 {
@@ -17,38 +18,44 @@ void clrscr(char key)
     write(1, str, strlen(str));
 }
 
-void put_long_str(winsize_t *w, char *str, size_t prompt_size, int *pos)
+void prompt_put_str(winsize_t *w, char *str, size_t prompt_size, cpos_t *pos)
 {
-    size_t strsize = strlen(str);
-    int size_out = strsize - (w->ws_col - prompt_size - 4);
-    int c_pos = *pos;
+    size_t strsize = (str) ? strlen(str) : 0;
+    int size_out = strsize - (w->ws_col - prompt_size);
 
-    if (c_pos > size_out) {
-        write(1, "...", 3);
-        write(1, &str[size_out], strsize - size_out);
-    } else if (strlen(&str[size_out]) > w->ws_col - 8) {
-        write(1, "...", 3);
-        write(1, &str[size_out], w->ws_col - 8);
-        write(1, "...", 3);
-    } else {
-        write(1, str, w->ws_col - 4);
-        write(1, "...", 3);
+    if (strsize + prompt_size < w->ws_col) {
+        write(1, str, strsize);
+        return;
     }
-    *pos = c_pos;
+    if (pos->cursor > 1) {
+        write(1, &str[size_out], strsize - size_out);
+    } else if (pos->cursor == 0 && pos->string != 0) {
+        write(1, &str[size_out], w->ws_col);
+    } else {
+        write(1, str, w->ws_col - prompt_size);
+    }
 }
 
-void update_prompt(char *str, char *prompt, int *pos)
+void update_prompt(char *str, char *prompt, cpos_t *pos, winsize_t *w)
 {
-    winsize_t w;
+    size_t size = (str) ? strlen(str) : 0;
+    size_t correct_pos = pos->string;
+    size_t ref = 0;
 
-    ioctl(0, TIOCGWINSZ, &w);
+    if (size > w->ws_col) {
+        size = w->ws_col;
+        correct_pos = pos->cursor;
+        ref = pos->prompt;
+    }
     write(1, "\r", 1);
-    strcrput(w.ws_col, ' ');
+    strcrput(w->ws_col, ' ');
     write(1, "\r", 1);
     write(1, prompt, strlen(prompt));
-    if (count_cols(str) + count_cols(prompt) > w.ws_col - 4) {
-        put_long_str(&w, str, count_cols(prompt), pos);
-    } else
-        write(1, str, strlen(str));
-    strcrput(strlen(str) - (*pos - 1), '\b');
+    prompt_put_str(w, str, count_cols(prompt), pos);
+    // if (size + count_cols(prompt) < w->ws_col)
+    // printf("[%d]", size - ref - (correct_pos - 1));
+    // fflush(stdout);
+        strcrput((size - ref - (correct_pos - 1)), '\b');
+    // else
+    //     strcrput(w->ws_col - correct_pos, '\b');
 }

@@ -17,17 +17,24 @@
 
 typedef struct winsize winsize_t;
 typedef struct termios termios_t;
+typedef struct cpos cpos_t;
 
 #define IS_PRINTABLE(c) (c >= 32 && c <= 126 || c == 0 || c == '\t') ? 1 : 0
 
+struct cpos {
+    unsigned int cursor;
+    unsigned int string;
+    size_t prompt;
+};
+
 void clrscr(char key);
-char *strespace(char *str, size_t str_size, size_t n, char c);
-char *strdespace(char *str, size_t str_size, size_t n, char key);
+char *strespace(char *str, cpos_t *pos, char c, winsize_t *w);
+char *strdespace(char *str, cpos_t *pos, char key, winsize_t *w);
 void strcrput(size_t size, char c);
 char get_key(void);
-void handle_special_keys(char *str, char key, unsigned int *pos);
+void handle_special_keys(char *str, char key, cpos_t *pos, winsize_t *w);
 char *user_entry(char *display);
-void update_prompt(char *str, char *prompt, int *pos);
+void update_prompt(char *str, char *prompt, cpos_t *pos, winsize_t *w);
 int key_cursor(char key);
 
 #endif /* !PROMPT_H_ */

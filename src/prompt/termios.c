@@ -37,8 +37,10 @@ termios_t *get_termios(void)
 
 int reset_term(termios_t *term)
 {
-    if (tcsetattr(0, TCSANOW, term) == -1)
-        return -1;
-    free(term);
+    if (term) {
+        if (tcsetattr(0, TCSANOW, term) == -1)
+            return -1;
+        free(term);
+    }
     return 0;
 }
