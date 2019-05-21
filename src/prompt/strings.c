@@ -16,8 +16,8 @@ char *strespace(char *str, cpos_t *pos, char c, winsize_t *w)
     size_t str_size = (str) ? strlen(str) : 0;
     char *tmp = strdup(str);
 
-    if (str_size + pos->prompt > w->ws_col)   
-        return str;
+    if (str_size + pos->prompt + 1 >= w->ws_col)   
+        return tmp;
     if (str_size > 0)
         str = realloc(str, str_size + 2);
     else {

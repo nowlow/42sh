@@ -8,6 +8,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include "prompt/prompt.h"
+#include "utils.h"
 
 static char *refund_str(char *str, char key, cpos_t *pos, winsize_t *w)
 {
@@ -25,7 +26,7 @@ static char *refund_str(char *str, char key, cpos_t *pos, winsize_t *w)
 char *prompt(char *display)
 {
     char *str = malloc(1);
-    cpos_t pos = {0, 0, strlen(display)};
+    cpos_t pos = {0, 0, count_cols(display)};
     char key = 0;
     winsize_t w;
 

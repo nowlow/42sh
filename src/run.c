@@ -100,7 +100,6 @@ int run_shell(shell_t *shell)
     signal(SIGINT, signal_handle);
     while (shell->will_exit != 1 &&
         (entry = user_entry(get_prompt(PROMPT, shell->env, ret)))) {
-        printf("%s\n", (entry) ? entry : "False");
         if (entry[0] != '\0' && entry) {
             cmd = my_array_to_cmd(entry);
             tmp = cmd;
