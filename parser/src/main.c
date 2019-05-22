@@ -33,7 +33,11 @@ void disp(s_element *ele, int indent)
     else
     {
         disp_indent(indent);
-        printf("expr: %s\n", ele->data.expression);
+        printf("argc: %d\n", ele->data.command->argc);
+        for (int i = 0; ele->data.command->argv[i]; i++) {
+            disp_indent(indent);
+            printf("%s\n", ele->data.command->argv[i]);
+        }
     }
     disp_indent(indent);
     printf("end: %p\n", ele);

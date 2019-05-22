@@ -12,7 +12,9 @@ typedef struct s_command
 {
     int argc;
     char **argv;
+    int n_redir;
     char **redirections;
+    int n_sources;
     char **sources;
 } s_command;
 
@@ -56,5 +58,7 @@ s_element *parts_to_elem(char **parts);
 
 char *get_expression(char *line, char **new_line);
 char *skip_to_next_expression(char *line);
+
+char **parse_line(char *line);
 
 #endif /* !PARSER_H_ */
