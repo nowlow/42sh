@@ -19,7 +19,8 @@ typedef struct winsize winsize_t;
 typedef struct termios termios_t;
 typedef struct cpos cpos_t;
 
-#define IS_PRINTABLE(c) (c >= 32 && c <= 126 || c == 0 || c == '\t') ? 1 : 0
+#define IS_PRINTABLE(c) (c >= 32 && c <= 126 || c == 0 || c == '\t' ||\
+    c == '\n') ? 1 : 0
 
 struct cpos {
     unsigned int cursor;

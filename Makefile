@@ -10,6 +10,9 @@ SRC					=					src/commands_parser.c					\
 										src/multi_commands.c					\
 										src/run.c								\
 										src/shell.c								\
+										src/aliases/add_alias.c					\
+										src/aliases/alias_handle.c				\
+										src/aliases/get_alias.c					\
 										src/commands/change_dir.c				\
 										src/commands/exec_from_path.c			\
 										src/commands/execmd.c					\
@@ -33,6 +36,7 @@ SRC					=					src/commands_parser.c					\
 										src/utils/string/merge.c				\
 										src/utils/string/my_getnbr.c			\
 										src/utils/string/my_strdup.c			\
+										src/utils/string/size.c					\
 										src/utils/string/string.c				\
 										src/prompt/display.c					\
 										src/prompt/key.c						\

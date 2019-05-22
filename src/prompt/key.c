@@ -10,7 +10,7 @@
 #include "prompt/keys.h"
 #include "prompt/cursor.h"
 
-static int key_match(char const k1[4], char const k2[4])
+int key_match(char const k1[4], char const k2[4])
 {
     for (int i = 0; i < 4; i++) {
         if (k1[i] != k2[i])
@@ -19,7 +19,7 @@ static int key_match(char const k1[4], char const k2[4])
     return 1;
 }
 
-static char find_key(char c[4])
+char find_key(char c[4])
 {
     for (int i = 0; special_keys_code[i][0]; i++) {
         if (key_match(c, special_keys_code[i]))
