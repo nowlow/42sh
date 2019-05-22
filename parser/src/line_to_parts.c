@@ -61,36 +61,11 @@ char *get_expression(char *line, char **new_line, char separator)
     return NULL;
 }
 
-char get_separator(char *line)
-{
-    int depth = 0;
-
-    for (int i = 0; line[i]; i++) {
-        if (line[i] == '(')
-            depth++;
-        if (line[i] == ')')
-            depth--;
-        if (depth == 0 && line[i] == ';')
-            return ';';
-    }
-    depth = 0;
-    for (int i = 0; line[i]; i++) {
-        if (line[i] == '(')
-            depth++;
-        if (line[i] == ')')
-            depth--;
-        if (depth == 0 && line[i] == '|')
-            return '|';
-    }
-    return 0;
-}
-
-char **line_to_parts(char *line)
+char **line_to_parts(char *line, char separator)
 {
     int parts_size = 10;
     char **parts = init_tab(&parts_size);
     char *buf = NULL;
-    char separator = get_separator(line);
 
     if (!parts)
         return NULL;

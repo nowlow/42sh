@@ -12,6 +12,8 @@ typedef struct s_command
 {
     int argc;
     char **argv;
+    char **redirections;
+    char **sources;
 } s_command;
 
 typedef enum operator_type
@@ -48,7 +50,7 @@ s_element *parse(char *line);
 
 void *free_all(s_element *element);
 
-char **line_to_parts(char *line);
+char **line_to_parts(char *line, char separator);
 
 s_element *parts_to_elem(char **parts);
 
