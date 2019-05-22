@@ -6,43 +6,40 @@
 */
 
 #include <string.h>
+#include <stdlib.h>
 #include "prompt/prompt.h"
+#include "utils.h"
 
-static char *refund_str(char *str, char key, unsigned int *pos)
+static char *refund_str(char *str, char key, cpos_t *pos, winsize_t *w)
 {
-    unsigned int cursor_pos = *pos;
-    size_t size = strlen(str);
-
     if (!key_cursor(key)) {
         if (IS_PRINTABLE(key)) {
-            str = strespace(str, size, cursor_pos, key);
-            cursor_pos += 1;
-        } else if (cursor_pos > 0) {
-            str = strdespace(str, size, cursor_pos, key);
-            cursor_pos -= (cursor_pos > 1 && key == 127) ? 1 : 0;
-            cursor_pos = (key == 21) ? 1 : cursor_pos;
+            str = strespace(str, pos, key, w);
+        } else if (pos->string > 0) {
+            str = strdespace(str, pos, key, w);
         }
     } else
-        handle_special_keys(str, key, &cursor_pos);
-    *pos = cursor_pos;
+        handle_special_keys(str, key, pos, w);
     return str;
 }
 
 char *prompt(char *display)
 {
     char *str = malloc(1);
-    unsigned int cursor_pos = 0;
+    cpos_t pos = {0, 0, count_cols(display)};
     char key = 0;
+    winsize_t w;
 
     str[0] = 0;
     do {
+        ioctl(0, TIOCGWINSZ, &w);
         if (key == 4)
             return NULL;
         if (key != 12 && key != 3)
-            str = refund_str(str, key, &cursor_pos);
+            str = refund_str(str, key, &pos, &w);
         else
             clrscr(key);
-        update_prompt(str, display, &cursor_pos);
+        update_prompt(str, display, &pos, &w);
     } while ((key = get_key()) != '\n');
     write(1, "\n", 1);
     return str;
@@ -54,8 +51,10 @@ char *user_entry(char *display)
     char *command = NULL;
     size_t len = 0;
 
-    if (isatty(0))
+    if (isatty(0) && getenv("TERM"))
         return prompt(display);
+    if (isatty(0))
+        write(1, display, strlen(display));
     nread = getline(&command, &len, stdin);
     if (nread == -1)
         return NULL;
