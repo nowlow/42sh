@@ -9,8 +9,9 @@
 #include <stdlib.h>
 #include "prompt/prompt.h"
 #include "utils.h"
+#include <stdbool.h>
 
-static char *refund_str(char *str, char key, cpos_t *pos, winsize_t *w)
+char *refund_str(char *str, char key, cpos_t *pos, winsize_t *w)
 {
     if (!key_cursor(key)) {
         if (IS_PRINTABLE(key)) {
@@ -28,10 +29,12 @@ char *prompt(char *display)
     char *str = malloc(1);
     cpos_t pos = {0, 0, count_cols(display)};
     char key = 0;
+    bool in_quotes = false;
     winsize_t w;
 
     str[0] = 0;
     do {
+        in_quotes = (!in_quotes && key == '"') ? true : false;
         ioctl(0, TIOCGWINSZ, &w);
         if (key == 4)
             return NULL;
@@ -40,7 +43,7 @@ char *prompt(char *display)
         else
             clrscr(key);
         update_prompt(str, display, &pos, &w);
-    } while ((key = get_key()) != '\n');
+    } while ((key = get_key()) != '\n' || !in_quotes);
     write(1, "\n", 1);
     return str;
 }
