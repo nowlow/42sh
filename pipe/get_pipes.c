@@ -5,14 +5,9 @@
 ** get_pipes
 */
 
-#include "parser.h"
+#include "pipe.h"
 #include <stdlib.h>
 #include <stdio.h>
-
-typedef struct clist {
-    s_command *command;
-    struct clist *next;
-} clist_t;
 
 clist_t *push(s_command *command, clist_t *list)
 {
