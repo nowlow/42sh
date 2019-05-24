@@ -5,12 +5,12 @@
 ** command_parser
 */
 
-#include "parser/tab.h"
-#include "parser/parser.h"
 #include <stddef.h>
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include "parser/tab.h"
+#include "parser/parser.h"
 
 static int get_size_with(char *line)
 {
