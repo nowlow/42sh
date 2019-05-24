@@ -34,9 +34,8 @@ char get_key(void)
     char c[4] = {0, 0, 0};
 
     read(0, &c, 1);
-    if (IS_GETTABLE(c[0])) {
+    if (IS_GETTABLE(c[0]))
         return (c[0] != '\t') ? c[0] : ' ';
-    }
     read(0, &t, 2);
     c[1] = t[0];
     c[2] = t[1];
@@ -54,9 +53,9 @@ int key_cursor(char key)
     return 0;
 }
 
-void handle_special_keys(char *str, char key, cpos_t *pos, winsize_t *w)
+char *handle_special_keys(char *str, char key, cpos_t *pos, winsize_t *w)
 {
-    void (*funcs[])(char *, cpos_t *, winsize_t *) = {
+    char *(*funcs[])(char *, cpos_t *, winsize_t *) = {
         &up_arrow, &left_arrow, &down_arrow,
         &right_arrow, &goto_start, &goto_end,
         &goto_start, &goto_end
@@ -64,5 +63,6 @@ void handle_special_keys(char *str, char key, cpos_t *pos, winsize_t *w)
     int got = key_cursor(key) - 1;
 
     if (got != -1)
-        funcs[got](str, pos, w);
+        str = funcs[got](str, pos, w);
+    return str;
 }

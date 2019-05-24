@@ -20,7 +20,7 @@ char *refund_str(char *str, char key, cpos_t *pos, winsize_t *w)
             str = strdespace(str, pos, key, w);
         }
     } else
-        handle_special_keys(str, key, pos, w);
+        str = handle_special_keys(str, key, pos, w);
     return str;
 }
 
@@ -29,12 +29,10 @@ char *prompt(char *display)
     char *str = malloc(1);
     cpos_t pos = {0, 0, count_cols(display)};
     char key = 0;
-    bool in_quotes = false;
     winsize_t w;
 
     str[0] = 0;
     do {
-        in_quotes = (!in_quotes && key == '"') ? true : false;
         ioctl(0, TIOCGWINSZ, &w);
         if (key == 4)
             return NULL;
@@ -43,7 +41,7 @@ char *prompt(char *display)
         else
             clrscr(key);
         update_prompt(str, display, &pos, &w);
-    } while ((key = get_key()) != '\n' || !in_quotes);
+    } while ((key = get_key()) != '\n');
     write(1, "\n", 1);
     return str;
 }
