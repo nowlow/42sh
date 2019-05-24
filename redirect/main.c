@@ -23,8 +23,6 @@ int main(int ac, char **av)
     int file;
     char **args;
 
-    if (ac < 4)
-        return (84);
     if (av[3] != NULL)
         file = open(av[2], O_WRONLY | O_APPEND, S_IRUSR | S_IRGRP | S_IWGRP | S_IWUSR);
     else
