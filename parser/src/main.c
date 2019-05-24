@@ -5,7 +5,7 @@
 ** main
 */
 
-#include "parser/parser.h"
+#include "parser.h"
 
 void disp_indent(int ind)
 {

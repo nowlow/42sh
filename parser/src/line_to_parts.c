@@ -7,7 +7,7 @@
 
 #include <stdlib.h>
 #include <string.h>
-#include "parser/tab.h"
+#include "tab.h"
 
 char *get_cmd(char *line, char **new_line, char separator)
 {
