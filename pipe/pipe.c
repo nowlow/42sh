@@ -85,7 +85,7 @@ static int mid_pipe(char **av, int out, int ac)
         if (close(tube[TUBE_LECTURE]) == -1) {
             perror("Fils : erreur lors de la fermeture du tube en lecture ");
             return (84);
-    }
+        }
         close_pipe(av, tube[TUBE_ECRITURE]);
     }
     if (close_and_copy_pipe(tube) != 0)
