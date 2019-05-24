@@ -102,6 +102,7 @@ int run_shell(shell_t *shell)
         (entry = user_entry(get_prompt(PROMPT, shell->env, ret)))) {
         if (entry[0] != '\0' && entry) {
             tree = parse(entry);
+            ret = (!ret);
         }
     }
     return (shell->will_exit == 1) ? ret : 0;
