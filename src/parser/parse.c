@@ -7,8 +7,8 @@
 
 #include <stdlib.h>
 #include <string.h>
-#include "parser.h"
-#include "tab.h"
+#include "parser/parser.h"
+#include "parser/tab.h"
 
 void parse_command(s_element *ele, char *line)
 {

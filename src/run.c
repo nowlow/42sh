@@ -23,6 +23,7 @@
 #include "shell.h"
 #include "get_next_line.h"
 #include "prompt/prompt.h"
+#include "parser/parser.h"
 
 char *get_currentwdir(env_t *env)
 {
@@ -93,22 +94,14 @@ void signal_handle(int sig)
 int run_shell(shell_t *shell)
 {
     char *entry = NULL;
-    cmd_t *cmd = NULL;
-    cmd_t *tmp = NULL;
     int ret = 0;
+    s_element *tree;
 
     signal(SIGINT, signal_handle);
     while (shell->will_exit != 1 &&
         (entry = user_entry(get_prompt(PROMPT, shell->env, ret)))) {
         if (entry[0] != '\0' && entry) {
-            cmd = my_array_to_cmd(entry);
-            tmp = cmd;
-            while (tmp) {
-                shell->nb_pipes += (tmp->next_link == 1) ? 1 : 0;
-                tmp = tmp->next;
-            }
-            ret = execmd(cmd, shell);
-            cmd_destroy(cmd);
+            tree = parse(entry);
         }
     }
     return (shell->will_exit == 1) ? ret : 0;

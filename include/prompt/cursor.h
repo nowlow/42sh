@@ -10,11 +10,11 @@
 
 #include "prompt.h"
 
-void down_arrow(char *str, cpos_t *pos, winsize_t *w);
-void up_arrow(char *str, cpos_t *pos, winsize_t *w);
-void right_arrow(char *str, cpos_t *pos, winsize_t *w);
-void left_arrow(char *str, cpos_t *pos, winsize_t *w);
-void goto_start(char *str, cpos_t *pos, winsize_t *w);
-void goto_end(char *str, cpos_t *pos, winsize_t *w);
+char *down_arrow(char *str, cpos_t *pos, winsize_t *w);
+char *up_arrow(char *str, cpos_t *pos, winsize_t *w);
+char *right_arrow(char *str, cpos_t *pos, winsize_t *w);
+char *left_arrow(char *str, cpos_t *pos, winsize_t *w);
+char *goto_start(char *str, cpos_t *pos, winsize_t *w);
+char *goto_end(char *str, cpos_t *pos, winsize_t *w);
 
 #endif /* !CURSOR_H_ */

@@ -14,16 +14,16 @@ SRC					=					src/commands_parser.c					\
 										src/aliases/alias_handle.c				\
 										src/aliases/get_alias.c					\
 										src/commands/change_dir.c				\
-										src/commands/exec_from_path.c			\
-										src/commands/execmd.c					\
 										src/commands/get_out.c					\
 										src/commands/print_env.c				\
 										src/commands/set_env.c					\
 										src/commands/unset_env.c				\
-										src/dividers/exec_it.c					\
-										src/dividers/redirect_it.c				\
-										src/dividers/repartition.c				\
-										src/globals/globals.c					\
+										src/parser/command_parser.c				\
+										src/parser/expression.c					\
+										src/parser/get_op.c						\
+										src/parser/line_to_parts.c				\
+										src/parser/parse.c						\
+										src/parser/str_tab_resize.c				\
 										src/utils/env_actions.c					\
 										src/utils/env.c							\
 										src/utils/errors.c						\
