@@ -54,8 +54,12 @@ char **parse_line(char *line)
     int tab_size = 1;
     char **args = init_tab(&tab_size);
 
-    for (int arg = 0; line[0]; arg++)
+    for (int arg = 0; line[0]; arg++) {
+        line = skip_to_next_expression(line);
+        if (!line[0])
+            break;
         add_to_tab(&args, &tab_size,
-        parse_command(skip_to_next_expression(line), &line));
+        parse_command(line, &line));
+    }
     return (args);
 }
