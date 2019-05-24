@@ -32,7 +32,7 @@ static int get_size(char *line)
 
 static char *parse_command(char *line, char **new_line)
 {
-    int size = 1;
+    int size = 0;
     char *result;
 
     if (line[0] == '>' || line[0] == '<')
@@ -45,6 +45,7 @@ static char *parse_command(char *line, char **new_line)
     for (int i = 0; i < size; i++)
         result[i] = line[i];
     result[size] = 0;
+    for (; line[size] == ' '; size += 1); // Possible fix for space as arg
     *new_line = &line[size];
     return result;
 }
@@ -54,7 +55,7 @@ char **parse_line(char *line)
     int tab_size = 1;
     char **args = init_tab(&tab_size);
 
-    for (int arg = 0; line[0]; arg++)
+    while (line[0])
         add_to_tab(&args, &tab_size,
         parse_command(skip_to_next_expression(line), &line));
     return (args);
