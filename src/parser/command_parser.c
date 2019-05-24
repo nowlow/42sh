@@ -5,8 +5,8 @@
 ** command_parser
 */
 
-#include "tab.h"
-#include "parser.h"
+#include "parser/tab.h"
+#include "parser/parser.h"
 #include <stddef.h>
 #include <string.h>
 #include <stdlib.h>

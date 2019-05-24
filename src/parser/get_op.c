@@ -5,7 +5,7 @@
 ** get_delim
 */
 
-#include "parser.h"
+#include "parser/parser.h"
 
 int get_op(char *line)
 {
