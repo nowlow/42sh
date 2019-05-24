@@ -14,6 +14,7 @@
 #include <string.h>
 #include <unistd.h>
 #include <stdlib.h>
+#include "historic.h"
 
 typedef struct winsize winsize_t;
 typedef struct termios termios_t;
@@ -28,6 +29,7 @@ struct cpos {
     unsigned int cursor;
     unsigned int string;
     size_t prompt;
+    history_t *historic;
 };
 
 void clrscr(char key);

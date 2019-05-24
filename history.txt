@@ -1,0 +1,13 @@
+slcd
+ls
+ls
+ls
+wow
+cd ..
+ls
+ls
+l
+cd ..
+cd ..
+cd ..
+cd ..

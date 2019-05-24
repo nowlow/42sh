@@ -10,6 +10,7 @@
 #include "prompt/prompt.h"
 #include "utils.h"
 #include <stdbool.h>
+#include "historic.h"
 
 char *refund_str(char *str, char key, cpos_t *pos, winsize_t *w)
 {
@@ -27,7 +28,7 @@ char *refund_str(char *str, char key, cpos_t *pos, winsize_t *w)
 char *prompt(char *display)
 {
     char *str = malloc(1);
-    cpos_t pos = {0, 0, count_cols(display)};
+    cpos_t pos = {0, 0, count_cols(display), history_init()};
     char key = 0;
     winsize_t w;
 
@@ -42,6 +43,8 @@ char *prompt(char *display)
             clrscr(key);
         update_prompt(str, display, &pos, &w);
     } while ((key = get_key()) != '\n');
+    pos.historic = history_push(str, pos.historic);
+    history_write(pos.historic);
     write(1, "\n", 1);
     return str;
 }
