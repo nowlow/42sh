@@ -30,11 +30,16 @@ char find_key(char c[4])
 
 char get_key(void)
 {
+    char t[3] = {0, 0};
     char c[4] = {0, 0, 0};
 
-    read(0, &c, 3);
-    if (c[1] == 0)
+    read(0, &c, 1);
+    if (IS_GETTABLE(c[0])) {
         return (c[0] != '\t') ? c[0] : ' ';
+    }
+    read(0, &t, 2);
+    c[1] = t[0];
+    c[2] = t[1];
     return find_key(c);
 }
 

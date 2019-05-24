@@ -51,9 +51,10 @@ char *strdespace(char *str, cpos_t *pos, char key, winsize_t *w)
     return str;
 }
 
-void strcrput(size_t size, char c)
+void strcrput(size_t tsize, char c)
 {
-    char str[size + 1];
+    size_t size = (tsize > 0) ? tsize : 0;
+    char str[size];
 
     for (int i = 0; i < size; i++)
         str[i] = c;
