@@ -29,9 +29,9 @@ int number_of_path(char *path)
     return count;
 }
 
-char **getpath(env_t *env)
+char **getpath(void)
 {
-    char *ep = (my_getenv("PATH", env)) ? my_getenv("PATH", env) : BASE_PATH;
+    char *ep = (getenv("PATH")) ? getenv("PATH") : BASE_PATH;
     int path_sz = 0;
     int passed = 0;
     int j;

@@ -9,10 +9,11 @@
 #define ERRORS_H_
 
 #include "shell.h"
+#include "parser/parser.h"
 
 void env_perror(void);
 
-int set_env_error(cmd_t *cmd, shell_t *shell);
+int set_env_error(s_command *cmd, shell_t *shell);
 
 int child_perror(int child);
 

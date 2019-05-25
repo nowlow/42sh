@@ -11,6 +11,7 @@
 #include <unistd.h>
 #include "parser/parser.h"
 #include "utils.h"
+#include "exec/exec.h"
 
 int is_path(char *arg)
 {
@@ -30,22 +31,22 @@ int is_path(char *arg)
 int path_handle(s_element *node)
 {
     if (is_path(node->data.command->argv[0])) {
-        if (execve(node->data.command->argv[0], node->data.command->argv,
-            __environ) == -1) {
-            dprintf(2, "%s: Command not found.\n", node->data.command->argv[0]);
-            return 1;
-        }
+        execve(node->data.command->argv[0], node->data.command->argv,
+            __environ);
+        dprintf(2, "%s: Command not found.\n", node->data.command->argv[0]);
+        return 1;
     }
     return 0;
 }
 
-int exec_path(s_element *node)
+int exec_path(s_element *node, exec_t *exec)
 {
     char *path = getenv("PATH");
-    char *tmp = strtok(path, ":");
+    char *tmp;
 
     if (!path)
-        path = "/bin/:/usr/bin:/usr/sbin";
+        path = my_strdup("/bin/:/usr/bin:/usr/sbin");
+    tmp = strtok(path, ":");
     if (path_handle(node))
         exit(1);
     while (tmp) {

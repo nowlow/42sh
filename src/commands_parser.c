@@ -63,11 +63,11 @@ char **build_argv(char *str, int argc)
     return argv;
 }
 
-cmd_t *my_array_to_cmd(char *str)
+s_command *my_array_to_cmd(char *str)
 {
     int argc = argc_count(str);
     char **argv = build_argv(str, argc);
-    cmd_t *commands = get_cmds(argc, argv);
+    s_command *commands = get_cmds(argc, argv);
 
     for (int i = 0; i < argc; i++)
         free(argv[i]);
@@ -75,9 +75,9 @@ cmd_t *my_array_to_cmd(char *str)
     return commands;
 }
 
-void cmd_destroy(cmd_t *cmd)
+void cmd_destroy(s_command *cmd)
 {
-    cmd_t *tmp = NULL;
+    s_command *tmp = NULL;
 
     while (cmd) {
         for (int i = 0; i < cmd->argc; i++)

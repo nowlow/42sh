@@ -18,6 +18,8 @@ struct exec {
 };
 
 int exec_line(char *line);
-int exec_path(s_element *node);
+int exec_path(s_element *node, exec_t *exec);
+int execwb(s_command *command);
+int get_builtin_cmd(char **argv);
 
 #endif /* !EXEC_H_ */

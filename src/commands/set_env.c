@@ -9,24 +9,14 @@
 #include <stdlib.h>
 #include "shell.h"
 
-int set_env(cmd_t *cmd, shell_t *shell)
+int set_env(s_command *cmd, shell_t *shell)
 {
-    env_t *list = shell->env;
     char *tmp = NULL;
     int err;
-    char *content = (cmd->argc == 3) ? cmd->argv[2] : "\0";
+    char *content = (cmd->argc == 3) ? cmd->argv[2] : "";
 
     if ((err = set_env_error(cmd, shell)) < 1)
         return ((err == -1) ? 1 : 0);
-    if (my_getenv(cmd->argv[1], shell->env)) {
-        list = get_this_elem(list, cmd);
-        free(list->content);
-        tmp = strmerge(cmd->argv[1], "=");
-        list->content = strmerge(tmp, content);
-    } else {
-        tmp = strmerge(cmd->argv[1], "=");
-        tmp = strmerge(tmp, content);
-        set_in_last(tmp, list);
-    }
+    setenv(cmd->argv[1], content, 1);
     return 0;
 }

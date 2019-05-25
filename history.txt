@@ -1,41 +1,92 @@
-exit
-$PPAP -a
-ls
-ls
-echo "ls" | ./42sh
-echo coucou | cat
-ls
-make fclean
 ls
 ls
 ls
+ls
+echo $PATH
+unsetenv PATH
+cd ..
+ls
+ls
+cd ..
 cd
-cat history.txt
 ls
-slcd
+setenv COUCOU aauaa
+setenv COUCOU
+env
+cd ..
 ls
-ls
-ls
-wow
 cd ..
 ls
 ls
-l
-cd ..
-cd ..
-cd ..
+env
+env
 cd ..
 ls
-cat
-cd
-cd ..
-cd ..
-azdojodz
 ls
-make fclean
 ls
+$PPAP -R
+$PPAP
 ls
 echo ls | ./42sh
 ls
-$PPAP
-$PPAP -R
+ls
+make fclean
+ls
+azdojodz
+cd ..
+cd ..
+cd
+cat
+ls
+cd ..
+cd ..
+cd ..
+cd ..
+l
+ls
+ls
+cd ..
+wow
+ls
+ls
+ls
+slcd
+ls
+cat history.txt
+cd
+ls
+ls
+ls
+make fclean
+ls
+echo coucou | cat
+echo "ls" | ./42sh
+ls
+ls
+$PPAP -a
+exit
+cd ..
+cd ..
+ls
+env
+cd ..
+make re
+cd ..
+cd ..
+cd ..
+ls
+ls
+exit 1
+env
+env
+make re
+cd
+cd
+cd ..
+cd ..
+cd ..
+env
+$PATH
+ls
+ls
+ls

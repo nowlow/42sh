@@ -11,6 +11,6 @@ char *dividers[6] = {
     ";", "|", ">", "<", "&&", 0
 };
 
-int (*exec_dividor[])(cmd_t *cmd, shell_t *shell) = {
+int (*exec_dividor[])(s_command *cmd, shell_t *shell) = {
     &exec_it, &exec_it, &redirect_it, &redirect_it, &exec_it, NULL
 };

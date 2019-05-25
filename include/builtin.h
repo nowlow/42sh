@@ -19,13 +19,13 @@ const char *commands[] = {
     NULL
 };
 
-const int (*exec[])(cmd_t *, shell_t *) = {
+const int (*exec[])(s_command *, shell_t *) = {
     &change_dir,
     &get_out,
     &print_env,
     &set_env,
     &unset_env,
-    &repartition
+    NULL
 };
 
 #endif /* !BUILTIN_H_ */

@@ -8,7 +8,7 @@
 #include <stdio.h>
 #include "shell.h"
 
-int repartition(cmd_t *cmd, shell_t *shell)
+int repartition(s_command *cmd, shell_t *shell)
 {
     int ret = 0;
 

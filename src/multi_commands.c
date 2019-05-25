@@ -45,9 +45,9 @@ int cmd_size(char **argv)
     return count;
 }
 
-cmd_t *add_cmd(int argc, char **argv, int link, cmd_t *next)
+s_command *add_cmd(int argc, char **argv, int link, s_command *next)
 {
-    cmd_t *cmd = malloc(sizeof(cmd_t));
+    s_command *cmd = malloc(sizeof(s_command));
 
     cmd->argc = argc;
     cmd->argv = malloc(sizeof(char *) * (argc + 1));
@@ -61,9 +61,9 @@ cmd_t *add_cmd(int argc, char **argv, int link, cmd_t *next)
     return cmd;
 }
 
-cmd_t *get_cmds(int argc, char **argv)
+s_command *get_cmds(int argc, char **argv)
 {
-    cmd_t *cmd = NULL;
+    s_command *cmd = NULL;
     int pos = 0;
     int size = 0;
     int last_pos = 0;

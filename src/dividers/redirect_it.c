@@ -7,7 +7,7 @@
 
 #include "shell.h"
 
-int redirect_it(cmd_t *cmd, shell_t *shell)
+int redirect_it(s_command *cmd, shell_t *shell)
 {
     return 0;
 }

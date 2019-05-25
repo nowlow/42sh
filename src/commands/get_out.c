@@ -7,7 +7,7 @@
 
 #include "shell.h"
 
-int get_out(cmd_t *cmd, shell_t *shell)
+int get_out(s_command *cmd, shell_t *shell)
 {
     if (isatty(0))
         write(1, "exit\n", 5);

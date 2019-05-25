@@ -6,26 +6,47 @@
 */
 
 #include "shell.h"
+#include <stdio.h>
+#include <unistd.h>
 
-int change_dir(cmd_t *cmd, shell_t *shell)
+void change_it(s_command *cmd, shell_t *shell)
+{
+    char buffer[FILENAME_MAX];
+
+    if (cmd->argc == 2) {
+        if (my_strcmp(cmd->argv[1], "-")) {
+            if (chdir(cmd->argv[1]) == -1) {
+                print_dir_error(cmd->argv[1]);
+                return;
+            }
+        } else {
+            chdir(getenv("OLDPWD"));
+        }
+    } else {
+        chdir(getenv("HOME"));
+    }
+}
+
+int change_dir(s_command *cmd, shell_t *shell)
 {
     int ret = 0;
-    char *path;
-    cmd_t *old_pwd = get_current_pwd(shell);
-    cmd_t *tmp = NULL;
+    s_command *tmp = NULL;
+    char buffer[FILENAME_MAX];
+    char buff2[FILENAME_MAX];
+    char *pwd;
+    char *old_pwd = getcwd(buff2, FILENAME_MAX);
 
     if (cmd->argc > 2)
         return 1;
     if (cmd->argc == 2 && cmd->argv[1][0] == '~') {
         cmd->argv[1] = &cmd->argv[1][1];
-        cmd->argv[1] = strmerge(my_getenv("HOME", shell->env), cmd->argv[1]);
+        cmd->argv[1] = strmerge(getenv("HOME"), cmd->argv[1]);
     }
-    path = change_it(cmd, shell);
-    if (path && old_pwd) {
-        tmp = my_array_to_cmd(path);
-        set_env(tmp, shell);
-        cmd_destroy(tmp);
-        set_env(old_pwd, shell);
+    change_it(cmd, shell);
+    if (old_pwd) {
+        pwd = getcwd(buffer, FILENAME_MAX);
+        setenv("PWD", (pwd) ? pwd : "", 1);
+        setenv("OLDPWD", (old_pwd) ? old_pwd : "", 1);
     } else
         ret = 1;
     return ret;

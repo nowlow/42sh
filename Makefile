@@ -5,9 +5,7 @@
 ## Makefile
 ##
 
-SRC					=					src/commands_parser.c					\
-										src/main.c								\
-										src/multi_commands.c					\
+SRC					=					src/main.c								\
 										src/run.c								\
 										src/shell.c								\
 										src/aliases/add_alias.c					\
@@ -20,6 +18,7 @@ SRC					=					src/commands_parser.c					\
 										src/commands/unset_env.c				\
 										src/execution/check_path.c				\
 										src/execution/exec.c					\
+										src/execution/execwb.c					\
 										src/historic/historic.c					\
 										src/historic/load_historic.c			\
 										src/historic/manage_list.c				\
@@ -32,12 +31,8 @@ SRC					=					src/commands_parser.c					\
 										src/parser/str_tab_resize.c				\
 										src/parser/parse_operator.c				\
 										src/parser/parse_command.c				\
-										src/utils/env_actions.c					\
-										src/utils/env.c							\
 										src/utils/errors.c						\
-										src/utils/linked_list.c					\
 										src/utils/paths.c						\
-										src/utils/pwd.c							\
 										src/utils/replace_env_variables.c		\
 										src/utils/string/count_cols.c			\
 										src/utils/string/double_array.c			\

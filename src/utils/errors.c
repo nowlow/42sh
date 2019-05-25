@@ -20,7 +20,7 @@ void env_perror(void)
     my_puterr("setenv: Variable name must contain alphanumeric characters.\n");
 }
 
-int set_env_error(cmd_t *cmd, shell_t *shell)
+int set_env_error(s_command *cmd, shell_t *shell)
 {
     if (cmd->argc < 2) {
         print_env(cmd, shell);

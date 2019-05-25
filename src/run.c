@@ -26,7 +26,7 @@
 #include "parser/parser.h"
 #include "exec/exec.h"
 
-char *get_currentwdir(env_t *env)
+char *get_currentwdir(void)
 {
     char *name;
     int last_slash = 0;
@@ -39,8 +39,8 @@ char *get_currentwdir(env_t *env)
             last_slash = i;
     name = (last_slash != 0) ? &dir_name[last_slash + 1] : dir_name;
     wd = "\e[1m\e[36m";
-    if (my_getenv("HOME", env) &&
-        my_strcmp(dir_name, my_getenv("HOME", env)) == 0)
+    if (getenv("HOME") &&
+        strcmp(dir_name, getenv("HOME")) == 0)
         wd = strmerge(wd, "~");
     else
         wd = strmerge(wd, name);
@@ -71,13 +71,12 @@ char *get_git_branch(void)
     return git;
 }
 
-char *get_prompt(char *prompt, env_t *env, int ret)
+char *get_prompt(char *prompt, int ret)
 {
     char *pr;
     void *ptr;
 
-    env = (!env) ? build_env_list(__environ) : env;
-    pr = get_currentwdir(env);
+    pr = get_currentwdir();
     ptr = pr;
     pr = strmerge(pr, get_git_branch());
     pr = strmerge(pr, (!ret) ? "\e[32m" : "\e[31m");
@@ -100,10 +99,9 @@ int run_shell(shell_t *shell)
 
     signal(SIGINT, signal_handle);
     while (shell->will_exit != 1 &&
-        (entry = user_entry(get_prompt(PROMPT, shell->env, ret)))) {
-        if (entry[0] != '\0' && entry) {
+        (entry = user_entry(get_prompt(PROMPT, ret)))) {
+        if (entry[0] != '\0' && entry)
             ret = exec_line(entry);
-        }
     }
     return (shell->will_exit == 1) ? ret : 0;
 }

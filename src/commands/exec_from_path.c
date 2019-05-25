@@ -9,7 +9,7 @@
 #include <stdio.h>
 #include "shell.h"
 
-int exec_from_path(cmd_t *cmd, shell_t *shell)
+int exec_from_path(s_command *cmd, shell_t *shell)
 {
     int ret = 0;
     char *b_arg = NULL;

@@ -41,7 +41,7 @@ void close_pipe(exec_t *exec, int is_left, int *fds, int op)
 int execute_command(s_element *node, exec_t *exec, int op, int is_left)
 {
     int fds[2] = {0, 0};
-    pid_t pid;
+    pid_t pid = 0;
     int ret;
 
     if (op == TYPE_PIPE && is_left)
@@ -51,7 +51,7 @@ int execute_command(s_element *node, exec_t *exec, int op, int is_left)
         if (op == TYPE_PIPE)
             init_pipe(exec, is_left, fds);
         node->data.command->argv = replace_env_vars(node->data.command->argv);
-        exec_path(node);
+        exec_path(node, exec);
     } else {
         if (!is_left && !exec->fds[0])
             close(fds[0]);
@@ -73,8 +73,12 @@ int recursive_exec(s_element *node, exec_t *exec, int op, int is_left)
             node->data.operator->operator_type, 1);
         right = recursive_exec(node->data.operator->b, exec,
             node->data.operator->operator_type, 0);
-    } else
-        exec->ret = execute_command(node, exec, op, is_left);
+    } else {
+        if (get_builtin_cmd(node->data.command->argv) == -1)
+            exec->ret = execute_command(node, exec, op, is_left);
+        else
+            exec->ret = execwb(node->data.command);
+    }
     return 0;
 }
 

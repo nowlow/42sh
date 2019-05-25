@@ -15,7 +15,7 @@
 #include "shell.h"
 #include "builtin.h"
 
-int exe(cmd_t *cmd, shell_t *shell)
+int exe(s_command *cmd, shell_t *shell)
 {
     int ret = 0;
     struct stat info;
@@ -35,7 +35,7 @@ int exe(cmd_t *cmd, shell_t *shell)
     return ret;
 }
 
-int get_cmd(cmd_t *cmd)
+int get_cmd(s_command *cmd)
 {
     if (!cmd)
         return -1;
@@ -47,7 +47,7 @@ int get_cmd(cmd_t *cmd)
     }
 }
 
-int execmd(cmd_t *cmd, shell_t *shell)
+int execmd(s_command *cmd, shell_t *shell)
 {
     int ret = 0;
     int command = get_cmd(cmd);

@@ -12,7 +12,7 @@
 #include <signal.h>
 #include "shell.h"
 
-int exec_it(cmd_t *cmd, shell_t *shell)
+int exec_it(s_command *cmd, shell_t *shell)
 {
     int ret = 0;
     int fk = 0;
