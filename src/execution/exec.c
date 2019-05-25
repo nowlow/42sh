@@ -7,6 +7,7 @@
 
 #include <stdio.h>
 #include "utils.h"
+#include "shell.h"
 #include <sys/types.h>
 #include <unistd.h>
 #include <sys/wait.h>
@@ -28,9 +29,9 @@ void init_pipe(exec_t *exec, int is_left, int *fds)
     }
 }
 
-void close_pipe(exec_t *exec, int is_left, int *fds, int op)
+void close_pipe(exec_t *exec, int is_left, int *fds)
 {
-    if (op == TYPE_PIPE && !is_left) {
+    if (exec->op == TYPE_PIPE && !is_left) {
         close(exec->fds[1]);
         close(exec->fds[0]);
     }
@@ -38,17 +39,17 @@ void close_pipe(exec_t *exec, int is_left, int *fds, int op)
     exec->fds[1] = fds[1];
 }
 
-int execute_command(s_element *node, exec_t *exec, int op, int is_left)
+int execute_command(s_element *node, exec_t *exec, int is_left)
 {
     int fds[2] = {0, 0};
     pid_t pid = 0;
     int ret;
 
-    if (op == TYPE_PIPE && is_left)
+    if (exec->op == TYPE_PIPE && is_left)
         pipe(fds);
     pid = fork();
     if (pid == 0) {
-        if (op == TYPE_PIPE)
+        if (exec->op == TYPE_PIPE)
             init_pipe(exec, is_left, fds);
         node->data.command->argv = replace_env_vars(node->data.command->argv);
         exec_path(node, exec);
@@ -59,34 +60,33 @@ int execute_command(s_element *node, exec_t *exec, int op, int is_left)
             close(exec->fds[1]);
         wait(&ret);
     }
-    close_pipe(exec, is_left, fds, op);
+    close_pipe(exec, is_left, fds);
     return ret % 255;
 }
 
-int recursive_exec(s_element *node, exec_t *exec, int op, int is_left)
+int recursive_exec(s_element *node, exec_t *exec, shell_t *shell, int is_left)
 {
     int left = 0;
     int right = 0;
 
     if (node->type == TYPE_OPERATOR) {
-        left = recursive_exec(node->data.operator->a, exec,
-            node->data.operator->operator_type, 1);
-        right = recursive_exec(node->data.operator->b, exec,
-            node->data.operator->operator_type, 0);
+        exec->op = node->data.operator->operator_type;
+        left = recursive_exec(node->data.operator->a, exec, shell, 1);
+        right = recursive_exec(node->data.operator->b, exec, shell, 0);
     } else {
         if (get_builtin_cmd(node->data.command->argv) == -1)
-            exec->ret = execute_command(node, exec, op, is_left);
+            exec->ret = execute_command(node, exec, is_left);
         else
-            exec->ret = execwb(node->data.command);
+            exec->ret = execwb(node->data.command, shell);
     }
     return 0;
 }
 
-int exec_line(char *line)
+int exec_line(char *line, shell_t *shell)
 {
     s_element *command = parse(line);
     exec_t exec = {{0, 0}, 0};
 
-    recursive_exec(command, &exec, 0, 1);
+    recursive_exec(command, &exec, shell, 1);
     return exec.ret;
 }

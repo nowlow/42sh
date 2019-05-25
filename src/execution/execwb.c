@@ -21,13 +21,12 @@ int get_builtin_cmd(char **argv)
     return -1;
 }
 
-int execwb(s_command *comd)
+int execwb(s_command *comd, shell_t *shell)
 {
     int cmd = get_builtin_cmd(comd->argv);
-    shell_t fake_shell = {"", "", 0};
 
     if (cmd == -1)
         return 1;
-    cmd = exec[cmd](comd, &fake_shell);
+    cmd = exec[cmd](comd, shell);
     return cmd;
 }

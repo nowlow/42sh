@@ -16,6 +16,7 @@ SRC					=					src/main.c								\
 										src/commands/print_env.c				\
 										src/commands/set_env.c					\
 										src/commands/unset_env.c				\
+										src/commands/whereis.c					\
 										src/execution/check_path.c				\
 										src/execution/exec.c					\
 										src/execution/execwb.c					\

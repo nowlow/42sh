@@ -29,4 +29,6 @@ int unset_env(s_command *cmd, shell_t *shell);
 /// Print environnement variables
 int print_env(s_command *cmd, shell_t *shell);
 
+int whereis(s_command *cmd, shell_t *shell);
+
 #endif /* !COMMANDS_H_ */

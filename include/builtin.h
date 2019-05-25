@@ -16,6 +16,7 @@ const char *commands[] = {
     "env",
     "setenv",
     "unsetenv",
+    "whereis",
     NULL
 };
 
@@ -25,6 +26,7 @@ const int (*exec[])(s_command *, shell_t *) = {
     &print_env,
     &set_env,
     &unset_env,
+    &whereis,
     NULL
 };
 

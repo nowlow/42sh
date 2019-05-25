@@ -101,7 +101,9 @@ int run_shell(shell_t *shell)
     while (shell->will_exit != 1 &&
         (entry = user_entry(get_prompt(PROMPT, ret)))) {
         if (entry[0] != '\0' && entry)
-            ret = exec_line(entry);
+            ret = exec_line(entry, shell);
     }
+    if (isatty(0))
+        printf("exit\n");
     return (shell->will_exit == 1) ? ret : 0;
 }
