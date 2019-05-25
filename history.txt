@@ -1,20 +1,35 @@
-cd ..
+ls
+echo "ls" | ./42sh
+echo coucou | cat
+ls
+make fclean
+ls
+ls
+ls
 cd
-cat
-ls
-cd ..
-cd ..
-cd ..
-cd ..
-l
-ls
-ls
-cd ..
-wow
-ls
-ls
+cat history.txt
 ls
 slcd
 ls
-cat history.txt
+ls
+ls
+wow
+cd ..
+ls
+ls
+l
+cd ..
+cd ..
+cd ..
+cd ..
+ls
+cat
 cd
+cd ..
+cd ..
+azdojodz
+ls
+make fclean
+ls
+ls
+echo ls | ./42sh

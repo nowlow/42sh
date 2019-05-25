@@ -18,7 +18,7 @@ int change_dir(cmd_t *cmd, shell_t *shell)
         return 1;
     if (cmd->argc == 2 && cmd->argv[1][0] == '~') {
         cmd->argv[1] = &cmd->argv[1][1];
-        cmd->argv[1] = my_strmerge(my_getenv("HOME", shell->env), cmd->argv[1]);
+        cmd->argv[1] = strmerge(my_getenv("HOME", shell->env), cmd->argv[1]);
     }
     path = change_it(cmd, shell);
     if (path && old_pwd) {

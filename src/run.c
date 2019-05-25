@@ -24,6 +24,7 @@
 #include "get_next_line.h"
 #include "prompt/prompt.h"
 #include "parser/parser.h"
+#include "exec/exec.h"
 
 char *get_currentwdir(env_t *env)
 {
@@ -40,9 +41,9 @@ char *get_currentwdir(env_t *env)
     wd = "\e[1m\e[36m";
     if (my_getenv("HOME", env) &&
         my_strcmp(dir_name, my_getenv("HOME", env)) == 0)
-        wd = my_strmerge(wd, "~");
+        wd = strmerge(wd, "~");
     else
-        wd = my_strmerge(wd, name);
+        wd = strmerge(wd, name);
     return wd;
 }
 
@@ -64,8 +65,8 @@ char *get_git_branch(void)
     content = (content) ? &content[last_slash] : NULL;
     if (!content || content[0] == 0)
         return "";
-    git = my_strmerge(git, content);
-    git = my_strmerge(git, "\e[34m)\e[0m");
+    git = strmerge(git, content);
+    git = strmerge(git, "\e[34m)\e[0m");
     free(tmp);
     return git;
 }
@@ -78,10 +79,10 @@ char *get_prompt(char *prompt, env_t *env, int ret)
     env = (!env) ? build_env_list(__environ) : env;
     pr = get_currentwdir(env);
     ptr = pr;
-    pr = my_strmerge(pr, get_git_branch());
-    pr = my_strmerge(pr, (!ret) ? "\e[32m" : "\e[31m");
-    pr = my_strmerge(pr, prompt);
-    pr = my_strmerge(pr, "\e[0m");
+    pr = strmerge(pr, get_git_branch());
+    pr = strmerge(pr, (!ret) ? "\e[32m" : "\e[31m");
+    pr = strmerge(pr, prompt);
+    pr = strmerge(pr, "\e[0m");
     free(ptr);
     return pr;
 }
@@ -101,8 +102,7 @@ int run_shell(shell_t *shell)
     while (shell->will_exit != 1 &&
         (entry = user_entry(get_prompt(PROMPT, shell->env, ret)))) {
         if (entry[0] != '\0' && entry) {
-            tree = parse(entry);
-            ret = (!ret);
+            ret = exec_line(entry);
         }
     }
     return (shell->will_exit == 1) ? ret : 0;

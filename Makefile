@@ -18,6 +18,8 @@ SRC					=					src/commands_parser.c					\
 										src/commands/print_env.c				\
 										src/commands/set_env.c					\
 										src/commands/unset_env.c				\
+										src/execution/check_path.c				\
+										src/execution/exec.c					\
 										src/historic/historic.c					\
 										src/historic/load_historic.c			\
 										src/historic/manage_list.c				\

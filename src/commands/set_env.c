@@ -21,11 +21,11 @@ int set_env(cmd_t *cmd, shell_t *shell)
     if (my_getenv(cmd->argv[1], shell->env)) {
         list = get_this_elem(list, cmd);
         free(list->content);
-        tmp = my_strmerge(cmd->argv[1], "=");
-        list->content = my_strmerge(tmp, content);
+        tmp = strmerge(cmd->argv[1], "=");
+        list->content = strmerge(tmp, content);
     } else {
-        tmp = my_strmerge(cmd->argv[1], "=");
-        tmp = my_strmerge(tmp, content);
+        tmp = strmerge(cmd->argv[1], "=");
+        tmp = strmerge(tmp, content);
         set_in_last(tmp, list);
     }
     return 0;

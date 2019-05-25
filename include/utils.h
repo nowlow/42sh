@@ -23,7 +23,7 @@ void my_putstr(char const *str);
 void my_puterr(char const *str);
 
 /// concatenates 2 string in a third
-char *my_strmerge(char *s1, char *s2);
+char *strmerge(char *s1, char *s2);
 
 /// returns a char **'s lenght
 int double_array_len(char **var);

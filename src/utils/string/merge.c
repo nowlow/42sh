@@ -8,7 +8,7 @@
 #include <stdlib.h>
 #include "utils.h"
 
-char *my_strmerge(char *s1, char *s2)
+char *strmerge(char *s1, char *s2)
 {
     int size = my_strlen(s1) + my_strlen(s2);
     char *merged = malloc(sizeof(char) * (size + 1));

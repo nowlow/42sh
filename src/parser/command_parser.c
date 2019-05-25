@@ -45,7 +45,7 @@ static char *parse_command(char *line, char **new_line)
     for (int i = 0; i < size; i++)
         result[i] = line[i];
     result[size] = 0;
-    for (; line[size] == ' '; size += 1); // Possible fix for space as arg
+    for (; line[size] == ' ' || line[size] == '\t'; size += 1); // Possible fix for space as arg
     *new_line = &line[size];
     return result;
 }

@@ -17,7 +17,7 @@ int exec_from_path(cmd_t *cmd, shell_t *shell)
 
     for (int i = 0; paths[i]; i++) {
         b_arg = cmd->argv[0];
-        cmd->argv[0] = my_strmerge(paths[i], cmd->argv[0]);
+        cmd->argv[0] = strmerge(paths[i], cmd->argv[0]);
         ret = exe(cmd, shell);
         cmd->argv[0] = b_arg;
         if (ret != -1)
