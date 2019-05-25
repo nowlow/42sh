@@ -5,12 +5,12 @@
 ** command_parser
 */
 
-#include "parser/tab.h"
-#include "parser/parser.h"
 #include <stddef.h>
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include "parser/tab.h"
+#include "parser/parser.h"
 
 static int get_size_with(char *line)
 {
@@ -55,8 +55,16 @@ char **parse_line(char *line)
     int tab_size = 1;
     char **args = init_tab(&tab_size);
 
+<<<<<<< HEAD
     while (line[0])
+=======
+    for (int arg = 0; line[0]; arg++) {
+        line = skip_to_next_expression(line);
+        if (!line[0])
+            break;
+>>>>>>> 51375841523df2389ed5973d96c484c0c8628086
         add_to_tab(&args, &tab_size,
-        parse_command(skip_to_next_expression(line), &line));
+        parse_command(line, &line));
+    }
     return (args);
 }

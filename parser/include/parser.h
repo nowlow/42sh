@@ -61,4 +61,12 @@ char *skip_to_next_expression(char *line);
 
 char **parse_line(char *line);
 
+s_element *parse_ok(char *line, char separator);
+
+int is_only_parenthesis(char *line);
+
+s_element *to_operator_elem(char **parts);
+
+s_element *to_command_elem(char *expression);
+
 #endif /* !PARSER_H_ */
