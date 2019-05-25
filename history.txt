@@ -1,13 +1,20 @@
+cd ..
+cd
+cat
+ls
+cd ..
+cd ..
+cd ..
+cd ..
+l
+ls
+ls
+cd ..
+wow
+ls
+ls
+ls
 slcd
 ls
-ls
-ls
-wow
-cd ..
-ls
-ls
-l
-cd ..
-cd ..
-cd ..
-cd ..
+cat history.txt
+cd

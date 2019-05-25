@@ -26,7 +26,10 @@ SRC					=					src/commands_parser.c					\
 										src/parser/get_op.c						\
 										src/parser/line_to_parts.c				\
 										src/parser/parse.c						\
+										src/parser/bad_functions.c				\
 										src/parser/str_tab_resize.c				\
+										src/parser/parse_operator.c				\
+										src/parser/parse_command.c				\
 										src/utils/env_actions.c					\
 										src/utils/env.c							\
 										src/utils/errors.c						\
