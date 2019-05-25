@@ -6,7 +6,7 @@
 */
 
 #include <stdio.h>
-
+#include "utils.h"
 #include <sys/types.h>
 #include <unistd.h>
 #include <sys/wait.h>
@@ -48,9 +48,9 @@ int execute_command(s_element *node, exec_t *exec, int op, int is_left)
         pipe(fds);
     pid = fork();
     if (pid == 0) {
-        if (op == TYPE_PIPE) {
+        if (op == TYPE_PIPE)
             init_pipe(exec, is_left, fds);
-        }
+        node->data.command->argv = replace_env_vars(node->data.command->argv);
         exec_path(node);
     } else {
         if (!is_left && !exec->fds[0])

@@ -22,6 +22,8 @@ void my_putstr(char const *str);
 ///  print char *'s content in error output
 void my_puterr(char const *str);
 
+char **replace_env_vars(char **tb);
+
 /// concatenates 2 string in a third
 char *strmerge(char *s1, char *s2);
 

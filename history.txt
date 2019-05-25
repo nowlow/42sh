@@ -1,3 +1,6 @@
+exit
+$PPAP -a
+ls
 ls
 echo "ls" | ./42sh
 echo coucou | cat
@@ -33,3 +36,6 @@ make fclean
 ls
 ls
 echo ls | ./42sh
+ls
+$PPAP
+$PPAP -R
