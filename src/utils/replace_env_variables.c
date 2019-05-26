@@ -16,7 +16,7 @@ static int len_env(char *str)
 
     if (!str)
         return (-1);
-    while (str[i] != '=' && str[i] != '\0')
+    while (str && str[i] && str[i] != '=')
         i++;
     return (i);
 }
@@ -43,19 +43,20 @@ static char *cut_env(char **env, char *str)
 
     if (i == -1)
         return (NULL);
-    tmp = malloc(sizeof(char) * (strlen(env[i]) + 1));
+    tmp = calloc(sizeof(char) * (strlen(env[i]) + 1),
+        sizeof(char) * (strlen(env[i]) + 1));
     if (!tmp)
         return (NULL);
     for (int j = len_env(env[i]) + 1; env[i][j] != '\0'; e++, j++) {
         tmp[e] = env[i][j];
-        tmp[e + 1] = '\0';
     }
     return (tmp);
 }
 
 static char *cut_dollar(char *str, int i)
 {
-    char *tmp = malloc(sizeof(char) * (strlen(str) + 1));
+    char *tmp = calloc(sizeof(char) * (strlen(str) + 1),
+        sizeof(char) * (strlen(str) + 1));
 
     if (!tmp)
         return (NULL);
@@ -68,7 +69,8 @@ static char *cut_dollar(char *str, int i)
 
 static char *cut_dollar_and_env(char *str, char **env)
 {
-    char *tmp = malloc(sizeof(char) * (strlen(str) + 1));
+    char *tmp = calloc(sizeof(char) * (strlen(str) + 1),
+        sizeof(char) * (strlen(str) + 1));
     int len = find_env(str, env);
 
     len = len_env(env[len]);
