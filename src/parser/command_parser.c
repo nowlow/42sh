@@ -34,28 +34,32 @@ static int get_marks_size(char *line)
 {
     int size;
 
-    for (size = 1; line[size] && line[size] != '"'; size++);
-    return (size + 1);
+    line = &line[1];
+    for (size = 0; line[size] && line[size] != '"'; size++);
+    return (size);
 }
 
 static char *parse_command(char *line, char **new_line)
 {
     int size = 1;
     char *result;
+    int is_mark = 0;
 
     if (line[0] == '>' || line[0] == '<')
         size = get_size_with(line);
-    else if (line[0] == '"')
+    else if (line[0] == '"') {
         size = get_marks_size(line);
+        is_mark = 1;
+    }
     else
         size = get_size(line);
     result = malloc(sizeof(char) * (size + 1));
     if (!result)
         return NULL;
     for (int i = 0; i < size; i++)
-        result[i] = line[i];
+        result[i] = line[i + is_mark];
     result[size] = 0;
-    *new_line = &line[size];
+    *new_line = &line[size + is_mark * 2];
     return result;
 }
 

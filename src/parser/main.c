@@ -16,6 +16,8 @@ void disp_indent(int ind)
 
 void disp(s_element *ele, int indent)
 {
+    if (!ele)
+        return;
     disp_indent(indent);
     printf("ptr: %p\n", ele);
     disp_indent(indent);
@@ -47,10 +49,10 @@ void disp(s_element *ele, int indent)
 
 int main(int argc, char **argv)
 {
-    s_element *ele;
-    for (int i = 1; i < argc; i++) {
-        ele = parse(argv[i]);
-        disp(ele, 0);
-    }
+    char ouais[] = "(salut \"ok ; bonjour\" ; pwd) | cat | od";
+    s_element *el;
+
+    el = parse(ouais);
+    disp(el, 0);
     return 0;
 }

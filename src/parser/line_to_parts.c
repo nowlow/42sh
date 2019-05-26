@@ -7,7 +7,7 @@
 
 #include <stdlib.h>
 #include <string.h>
-#include "tab.h"
+#include "parser/tab.h"
 
 static void update_depth(char current_char, int *depth, int *in_marks)
 {
