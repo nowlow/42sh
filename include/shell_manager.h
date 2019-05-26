@@ -8,7 +8,7 @@
 #ifndef SHELL_MANAGER_H_
 #define SHELL_MANAGER_H_
 
-#include "shell.h"
+#include "structs.h"
 
 shell_t *shell_init(void);
 

@@ -45,7 +45,6 @@ shell_t *shell_init(void)
 
     shell->will_exit = 0;
     shell->aliases = NULL;
-    shell->is_a_tty = isatty(0);
     ret = pre_exec(shell);
     if (shell->will_exit)
         exit(ret);
