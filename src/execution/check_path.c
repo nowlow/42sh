@@ -9,6 +9,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <unistd.h>
+#include <sys/stat.h>
 #include "parser/parser.h"
 #include "utils.h"
 #include "exec/exec.h"
@@ -30,10 +31,16 @@ int is_path(char *arg)
 
 int path_handle(s_element *node)
 {
+    struct stat infos;
+
     if (is_path(node->data.command->argv[0])) {
         execve(node->data.command->argv[0], node->data.command->argv,
             __environ);
-        dprintf(2, "%s: Command not found.\n", node->data.command->argv[0]);
+        stat(node->data.command->argv[0], &infos);
+        if (S_ISDIR(infos.st_mode) || !(infos.st_mode & S_IXUSR))
+            dprintf(2, "%s: Permission denied.\n", node->data.command->argv[0]);
+        else
+            dprintf(2, "%s: Command not found.\n", node->data.command->argv[0]);
         return 1;
     }
     return 0;
