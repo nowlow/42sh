@@ -9,19 +9,24 @@
 #include <stdio.h>
 #include <unistd.h>
 
+void handle_old(s_command *cmd)
+{
+    if (my_strcmp(cmd->argv[1], "-")) {
+        if (chdir(cmd->argv[1]) == -1) {
+            print_dir_error(cmd->argv[1]);
+            return;
+        }
+    } else {
+        chdir(getenv("OLDPWD"));
+    }
+}
+
 void change_it(s_command *cmd, shell_t *shell)
 {
     char buffer[FILENAME_MAX];
 
     if (cmd->argc == 2) {
-        if (my_strcmp(cmd->argv[1], "-")) {
-            if (chdir(cmd->argv[1]) == -1) {
-                print_dir_error(cmd->argv[1]);
-                return;
-            }
-        } else {
-            chdir(getenv("OLDPWD"));
-        }
+        handle_old(cmd);
     } else {
         chdir(getenv("HOME"));
     }
