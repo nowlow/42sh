@@ -5,7 +5,7 @@
 ** bad_function
 */
 
-#include "parser.h"
+#include "parser/parser.h"
 
 s_element *parse_ok(char *line, char separator)
 {

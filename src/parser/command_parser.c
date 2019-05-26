@@ -30,6 +30,14 @@ static int get_size(char *line)
     return (size);
 }
 
+static int get_marks_size(char *line)
+{
+    int size;
+
+    for (size = 1; line[size] && line[size] != '"'; size++);
+    return (size + 1);
+}
+
 static char *parse_command(char *line, char **new_line)
 {
     int size = 1;
@@ -37,6 +45,8 @@ static char *parse_command(char *line, char **new_line)
 
     if (line[0] == '>' || line[0] == '<')
         size = get_size_with(line);
+    else if (line[0] == '"')
+        size = get_marks_size(line);
     else
         size = get_size(line);
     result = malloc(sizeof(char) * (size + 1));
