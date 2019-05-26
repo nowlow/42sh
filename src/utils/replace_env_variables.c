@@ -74,6 +74,9 @@ static char *cut_dollar_and_env(char *str, char **env)
     len = len_env(env[len]);
     if (!tmp)
         return (NULL);
+    for (int i = 0; i < strlen(str) + 1; i++) {
+        tmp[i] = 0;
+    }
     for (int j = 0; str[len] != '\0'; len++, j++) {
         tmp[j] = str[len];
         tmp[j + 1] = '\0';

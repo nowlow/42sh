@@ -10,29 +10,35 @@
 #include "parser/parser.h"
 #include "parser/tab.h"
 
+int k(s_element *ele, char **parts, int i)
+{
+    if (strcmp(parts[i], "<") == 0) {
+        i++;
+        if (!parts[i])
+            return 0;
+        add_to_tab(&ele->data.command->sources,
+            &ele->data.command->n_sources, parts[i]);
+        return 1;
+    }
+    if (strcmp(parts[i], ">") == 0) {
+        i++;
+        if (!parts[i])
+            return 0;
+        add_to_tab(&ele->data.command->redirections,
+            &ele->data.command->n_redir, parts[i]);
+        return 1;
+    }
+    add_to_tab(&ele->data.command->argv,
+        &ele->data.command->argc, parts[i]);
+}
+
 void parse_command(s_element *ele, char *line)
 {
     char **parts = parse_line(line);
 
     for (int i = 0; parts[i]; i++) {
-        if (strcmp(parts[i], "<") == 0) {
-            i++;
-            if (!parts[i])
-                return;
-            add_to_tab(&ele->data.command->sources,
-                &ele->data.command->n_sources, parts[i]);
-            continue;
-        }
-        if (strcmp(parts[i], ">") == 0) {
-            i++;
-            if (!parts[i])
-                return;
-            add_to_tab(&ele->data.command->redirections,
-                &ele->data.command->n_redir, parts[i]);
-            continue;
-        }
-        add_to_tab(&ele->data.command->argv,
-            &ele->data.command->argc, parts[i]);
+        if (!k(ele, parts, i))
+            break;
     }
 }
 
