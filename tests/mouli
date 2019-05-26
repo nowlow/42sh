@@ -214,6 +214,9 @@ echo -e "┌🚁 Separator:"
 echo "│"
 test_command_display "ls --color=never ; ls --color=never"
 test_command_display "cd .. ; pwd ; cd / ; pwd ; cd ; pwd"
+test_command_display "cd .. && pwd && cd / && pwd && cd && pwd"
+test_command_display "cd .. ; pwd && cd / ; pwd && cd && pwd"
+test_command_display "ls || pwd"
 echo "└"
 
 # pipe tests

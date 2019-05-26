@@ -74,7 +74,8 @@ int recursive_exec(s_element *node, exec_t *exec, shell_t *shell, int is_left)
         exec->op = node;
         exec->op_type = node->data.operator->operator_type;
         left = recursive_exec(node->data.operator->a, exec, shell, 1);
-        if (node->data.operator->operator_type != TYPE_PIPE)
+        if (node->data.operator->operator_type != TYPE_PIPE && 
+            (node->data.operator->operator_type != TYPE_OR || left))
             right = recursive_exec(node->data.operator->b, exec, shell, 0);
     } else {
         if (get_builtin_cmd(node->data.command->argv) == -1) {
@@ -83,7 +84,7 @@ int recursive_exec(s_element *node, exec_t *exec, shell_t *shell, int is_left)
         } else
             exec->ret = execwb(node->data.command, shell);
     }
-    return 0;
+    return exec->ret;
 }
 
 int exec_line(char *line, shell_t *shell)
