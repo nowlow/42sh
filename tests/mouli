@@ -20,9 +20,9 @@ fi
 path=$path_to$bin_name
 
 # PRINT AND MAKE BINARY FROM PATH
-printf "make -C $path_to"
+printf "make -C $path_to\t⌛"
 make -C $path_to &> .make.log
-echo -e "\r[ binary : $path ]"
+echo -e "\r◣ binary : $path ◥"
 echo ""
 
 # CHECK IF THE BINRARY IS EXECUTABLE
@@ -49,10 +49,10 @@ test_command_display() {
     tests_count=$(($tests_count+1))
     if diff .mysh .tcsh &> .diff.log
     then
-        echo -e "    [display:${GREEN}OK${RESET}]\t'$1': test passed"
+        echo -e "├    [📝:✔️ ]\t'$1'"
         passed_tests_count=$(($passed_tests_count+1))
     else
-        echo -e "    [display:${RED}KO${RESET}]\t'$1': test failed"
+        echo -e "├    [📝:❌]\t'$1'"
     fi
     rm -f .diff.log
     rm -f .mysh
@@ -66,10 +66,10 @@ test_command_display_2_commands() {
     tests_count=$(($tests_count+1))
     if diff .mysh .tcsh &> .diff.log
     then
-        echo -e "    [display:${GREEN}OK${RESET}]\t'$1' then '$2': test passed"
+        echo -e "├    [📝:✔️ ]\t'$1' then '$2'"
         passed_tests_count=$(($passed_tests_count+1))
     else
-        echo -e "    [display:${RED}KO${RESET}]\t'$1' then '$2': test failed"
+        echo -e "├    [📝:❌]\t'$1' then '$2'"
     fi
     rm -f .diff.log
     rm -f .mysh
@@ -83,10 +83,10 @@ test_command_display_3_commands() {
     tests_count=$(($tests_count+1))
     if diff .mysh .tcsh &> .diff.log
     then
-        echo -e "    [display:${GREEN}OK${RESET}]\t'$1' then '$2': test passed"
+        echo -e "├    [📝:✔️ ]\t'$1' then '$2'"
         passed_tests_count=$(($passed_tests_count+1))
     else
-        echo -e "    [display:${RED}KO${RESET}]\t'$1' then '$2': test failed"
+        echo -e "├    [📝:❌]\t'$1' then '$2'"
     fi
     rm -f .diff.log
     rm -f .mysh
@@ -100,10 +100,10 @@ test_command_return_value() {
     tests_count=$(($tests_count+1))
     if [ $mysh -eq $tcsh ]
     then
-        echo -e "    [return:${GREEN}OK${RESET}]\t\t'$1': test passed"
+        echo -e "├    [📟:✔️ ]\t'$1'"
         passed_tests_count=$(($passed_tests_count+1))
     else
-        echo -e "    [return:${RED}KO${RESET}]\t\t'$1': test failed - exit status $mysh"
+        echo -e "├    [📟:❌]\t'$1' - exit status $mysh"
     fi
 }
 
@@ -114,10 +114,10 @@ test_command_return_value_2_commands() {
     tests_count=$(($tests_count+1))
     if test $mysh -eq $tcsh
     then
-        echo -e "    [return:${GREEN}OK${RESET}]\t\t'$1' then '$2': test passed"
+        echo -e "├    [📟:✔️ ]\t'$1' then '$2'"
         passed_tests_count=$(($passed_tests_count+1))
     else
-        echo -e "    [return:${RED}KO${RESET}]\t\t'$1' then '$2': test failed - exit status $mysh"
+        echo -e "├    [📟:❌]\t'$1' then '$2' - exit status $mysh"
     fi
 }
 
@@ -127,11 +127,11 @@ test_substring_exists() {
     tests_count=$(($tests_count+1))
     if [[ "$mysh" == *"$2"* ]]
     then
-        echo -e "    [substring:${GREEN}OK${RESET}]\t'$1': test passed"
+        echo -e "├    [📝:✔️ ]\t'$1'"
         passed_tests_count=$(($passed_tests_count+1))
     else
-        echo -e "    [substring:${RED}KO${RESET}]\t'$1': test failed"
-        echo -e "    \t\tcan't find line [$2]"
+        echo -e "├    [📝:❌]\t'$1'"
+        echo -e "├    \t\tcan't find line [$2]"
     fi
 }
 
@@ -141,42 +141,44 @@ test_substring_exists_2_commands() {
     tests_count=$(($tests_count+1))
     if [[ $mysh == *"$3"* ]]
     then
-        echo -e "    [substring:${GREEN}OK${RESET}]\t'$1': test passed"
+        echo -e "├    [📝:✔️ ]\t'$1'"
         passed_tests_count=$(($passed_tests_count+1))
     else
-        echo -e "    [substring:${RED}KO${RESET}]\t'$1' then '$2': test failed - can't find [$3]"
+        echo -e "├    [📝:❌]\t'$1' then '$2' - can't find [$3]"
     fi
 }
 
-echo "== B-PSU-210 MiniShell 2 =="
+echo "⎣ B-PSU-210 42sh ⎤"
 echo ""
 
 # ===================================================== TESTS ===================================================== #
 
 # basics tests
-echo "Basic tests :"
-echo ""
+echo -e "┌👶 Basic tests :"
+echo "│"
 test_command_display ""
 test_command_display "ls --color=never"
 test_command_display "zuborg"
-echo ""
+echo "└"
 
 # exit tests
-echo "Exit tests"
+echo ""
+echo -e "┌🚪 Exit tests :"
 test_command_return_value "exit"
 test_command_return_value "exit 42"
 test_command_return_value "exit 324"
+echo "└"
 
 # formatting tests
-echo "Formating tests :"
-echo ""
+echo -e "┌☄️  Formating tests :"
+echo "│"
 test_command_display "ls\t\t     \t   --color=never                                        -l"
 test_command_display "\tls\t\t--color=never\t-l\t\t"
-echo ""
+echo "└"
 
 # cd tests
-echo "Built-in cd :"
-echo ""
+echo -e "┌📂 Built-in cd :"
+echo "│"
 test_command_return_value "cd"
 test_command_return_value "cd .."
 test_command_display "cd bad_file"
@@ -186,11 +188,11 @@ test_command_display_3_commands "cd .." "cd -" "pwd"
 test_command_display_2_commands "cd .." "pwd"
 test_command_display_2_commands "cd" "pwd"
 test_command_display "cd\npwd\ncd ..\npwd"
-echo ""
+echo "└"
 
 # env tests
-echo "Built-in env , setenv and unsetenv:"
-echo ""
+echo -e "┌🏞️  Built-in env, setenv and unsetenv:"
+echo "│"
 test_command_return_value "setenv LVL"
 test_command_return_value "unsetenv NAME"
 test_command_display "unsetenv MATE"
@@ -205,20 +207,20 @@ test_command_return_value "unsetenv NOT_SET"
 test_command_display "unsetenv NOT_SET"
 test_command_return_value_2_commands "setenv COUCOU" "unsetenv COUCOU"
 test_substring_exists_2_commands "setenv COUCOU" "env" "COUCOU="
-echo ""
+echo "└"
 
 # separator tests
-echo "Separator:"
-echo ""
+echo -e "┌🚁 Separator:"
+echo "│"
 test_command_display "ls --color=never ; ls --color=never"
 test_command_display "cd .. ; pwd ; cd / ; pwd ; cd ; pwd"
-echo ""
+echo "└"
 
 # pipe tests
-echo "Pipes:"
-echo ""
+echo -e "┌⚗ Pipes:"
+echo "│"
 test_command_display "cat Makefile | grep --color=never SRC"
-echo ""
+echo "└"
 
 # ================================================== END OF TESTS ================================================== #
 
@@ -249,4 +251,11 @@ then
 else
     p_color=${RED}
 fi
-echo "$p_color$percent%${RESET} - $passed_tests_count on $tests_count"
+if test $percent -eq 100
+then
+    percent='💯'
+else
+    percent=$percent'%'
+fi
+echo ""
+echo "$p_color$percent${RESET} - $p_color$passed_tests_count / $tests_count${RESET}"
