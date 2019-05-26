@@ -56,7 +56,7 @@ int execute_command(s_element *node, exec_t *exec, int is_left, shell_t *shell)
         else if (node->data.command->redirections[0])
             init_redirection(node);
         node->data.command->argv = replace_env_vars(node->data.command->argv);
-        exec_path(node, exec);
+        exec_path(node, exec, shell);
     } else {
         end_before_wait(exec, node, (int [3]){fds[0], fds[1], is_left}, shell);
         wait(&ret);

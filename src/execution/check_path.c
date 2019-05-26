@@ -46,7 +46,7 @@ int path_handle(s_element *node)
     return 0;
 }
 
-int exec_path(s_element *node, exec_t *exec)
+int exec_path(s_element *node, exec_t *exec, shell_t *shell)
 {
     char *path = strdup((getenv("PATH")) ? getenv("PATH") :
         "/bin/:/usr/bin:/usr/sbin");
