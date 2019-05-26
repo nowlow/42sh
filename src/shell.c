@@ -20,24 +20,21 @@ int pre_exec(shell_t *shell)
 {
     char *filename = (getenv("HOME")) ?
         pstrmerge(getenv("HOME"), ".42shrc") : ".42shrc";
-    // FILE *file = fopen(filename, "r");
-    // size_t nread;
-    // size_t len = 0;
+    FILE *file = fopen(filename, "r");
+    size_t nread;
+    size_t len = 0;
     char *line = NULL;
     int ret;
-    int fd = open(filename, O_RDONLY);
 
-    if (fd == -1)
+    if (!file)
         return 0;
-    // while ((nread = getline(&line, &len, file)) != -1 && shell->will_exit != 1) {
-    //     if (line[strlen(line) - 1] == '\n')
-    //         line[strlen(line) - 1] = 0;
-    while ((line = get_next_line(fd))) {
+    while ((nread = getline(&line, &len, file)) != -1 && shell->will_exit != 1) {
+        if (line[strlen(line) - 1] == '\n')
+            line[strlen(line) - 1] = 0;
         if (line[0] != '#')
             ret = exec_line(line, shell);
     }
-    // }
-    close(fd);
+    fclose(file);
     return ret;
 }
 
@@ -48,10 +45,10 @@ shell_t *shell_init(void)
 
     shell->will_exit = 0;
     shell->aliases = NULL;
-    // shell->is_a_tty = isatty(0);
-    // ret = pre_exec(shell);
-    // if (shell->will_exit)
-    //     exit(ret);
+    shell->is_a_tty = isatty(0);
+    ret = pre_exec(shell);
+    if (shell->will_exit)
+        exit(ret);
     return shell;
 }
 
