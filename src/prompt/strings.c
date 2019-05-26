@@ -53,7 +53,7 @@ char *strdespace(char *str, cpos_t *pos, char key, winsize_t *w)
 
 void strcrput(size_t tsize, char c)
 {
-    size_t size = (tsize > 0) ? tsize : 0;
+    size_t size = (tsize) ? tsize : 0;
     char str[size];
 
     for (int i = 0; i < size; i++)

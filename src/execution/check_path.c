@@ -41,7 +41,7 @@ int path_handle(s_element *node)
 
 int exec_path(s_element *node, exec_t *exec)
 {
-    char *path = getenv("PATH");
+    char *path = strdup(getenv("PATH"));
     char *tmp;
 
     if (!path)

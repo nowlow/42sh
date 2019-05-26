@@ -11,7 +11,7 @@
 
 int print_env(s_command *cmd, shell_t *shell)
 {
-    if (cmd->argc == 1) {
+    if (!cmd || cmd->argc == 1) {
         for (int i = 0; __environ[i]; i++) {
             printf("%s\n", __environ[i]);
         }
