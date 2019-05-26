@@ -31,4 +31,6 @@ int print_env(s_command *cmd, shell_t *shell);
 
 int whereis(s_command *cmd, shell_t *shell);
 
+int alias(s_command *cmd, shell_t *shell);
+
 #endif /* !COMMANDS_H_ */

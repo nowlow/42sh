@@ -54,7 +54,7 @@ int execute_command(s_element *node, exec_t *exec, int is_left, shell_t *shell)
         node->data.command->argv = replace_env_vars(node->data.command->argv);
         exec_path(node, exec);
     } else {
-        end_before_wait(exec, node, fds, shell);
+        end_before_wait(exec, node, (int [3]){fds[0], fds[1], is_left}, shell);
         wait(&ret);
     }
     close_pipe(exec, is_left, fds);

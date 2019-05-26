@@ -11,6 +11,7 @@
 #include "utils.h"
 #include <stdbool.h>
 #include "historic.h"
+#include "shell.h"
 
 char *refund_str(char *str, char key, cpos_t *pos, winsize_t *w)
 {
@@ -49,14 +50,15 @@ char *prompt(char *display)
     return str;
 }
 
-char *user_entry(char *display)
+char *user_entry(char *display, shell_t *shell)
 {
     size_t nread = 0;
     char *command = NULL;
     size_t len = 0;
 
-    if (isatty(0) && getenv("TERM"))
+    if (isatty(0) && getenv("TERM")) {
         return prompt(display);
+    }
     if (isatty(0))
         write(1, display, strlen(display));
     nread = getline(&command, &len, stdin);

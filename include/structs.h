@@ -13,10 +13,9 @@
 typedef struct shell shell_t;
 
 struct shell {
-    char *name;
-    char *prompt;
     int will_exit;
     alias_t **aliases;
+    int is_a_tty;
 };
 
 #endif /* !STRUCTS_H_ */

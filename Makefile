@@ -11,6 +11,7 @@ SRC					=					src/main.c								\
 										src/aliases/add_alias.c					\
 										src/aliases/alias_handle.c				\
 										src/aliases/get_alias.c					\
+										src/commands/alias.c					\
 										src/commands/change_dir.c				\
 										src/commands/get_out.c					\
 										src/commands/print_env.c				\

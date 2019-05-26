@@ -15,6 +15,7 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include "historic.h"
+#include "shell.h"
 
 typedef struct winsize winsize_t;
 typedef struct termios termios_t;
@@ -38,7 +39,7 @@ char *strdespace(char *str, cpos_t *pos, char key, winsize_t *w);
 void strcrput(size_t size, char c);
 char get_key(void);
 char *handle_special_keys(char *str, char key, cpos_t *pos, winsize_t *w);
-char *user_entry(char *display);
+char *user_entry(char *display, shell_t *shell);
 void update_prompt(char *str, char *prompt, cpos_t *pos, winsize_t *w);
 int key_cursor(char key);
 

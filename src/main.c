@@ -20,7 +20,7 @@ int main(int argc, char **argv, char **env)
         term = get_termios();
     if (argc != 1)
         return 84;
-    shell = shell_init("minishell", PROMPT, env);
+    shell = shell_init();
     ret = run_shell(shell);
     shell_destroy(shell);
     if (isatty(0))

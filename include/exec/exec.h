@@ -26,7 +26,7 @@ int exec_path(s_element *node, exec_t *exec);
 int execwb(s_command *command, shell_t *shell);
 int get_builtin_cmd(char **argv);
 int child_error_handle(int child, shell_t *shell);
-void end_before_wait(exec_t *exec, s_element *node, int fds[2], shell_t *shell);
+void end_before_wait(exec_t *exec, s_element *node, int inf[3], shell_t *shell);
 void close_pipe(exec_t *exec, int is_left, int *fds);
 
 #endif /* !EXEC_H_ */

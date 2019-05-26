@@ -60,9 +60,10 @@ int exec_path(s_element *node, exec_t *exec)
     exit(1);
 }
 
-void end_before_wait(exec_t *exec, s_element *node, int fds[2], shell_t *shell)
+void end_before_wait(exec_t *exec, s_element *node, int infos[3], shell_t *shell)
 {
-    int is_left = (node == exec->op->data.operator->a);
+    int is_left = infos[2];
+    int fds[2] = {infos[0], infos[1]};
 
     if (exec->op_type == TYPE_PIPE && is_left) {
         close_pipe(exec, is_left, fds);

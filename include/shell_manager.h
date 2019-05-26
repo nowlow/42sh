@@ -10,7 +10,7 @@
 
 #include "shell.h"
 
-shell_t *shell_init(char *name, char *prompt, char **env);
+shell_t *shell_init(void);
 
 void shell_destroy(shell_t *shell);
 

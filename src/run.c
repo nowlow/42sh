@@ -99,7 +99,7 @@ int run_shell(shell_t *shell)
 
     signal(SIGINT, signal_handle);
     while (shell->will_exit != 1 &&
-        (entry = user_entry(get_prompt(PROMPT, ret)))) {
+        (entry = user_entry(get_prompt(PROMPT, ret), shell))) {
         if (entry[0] != '\0' && entry)
             ret = exec_line(entry, shell);
     }
