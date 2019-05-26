@@ -27,9 +27,9 @@
 typedef struct history history_t;
 
 struct history {
-    char *command;
-    history_t *prev;
-    history_t *next;
+    int pos;
+    int size;
+    char **commands;
 };
 
 //additionnal_function.c
@@ -61,8 +61,8 @@ char **my_strtoa(char *);
 
 history_t *history_init(void);
 history_t *history_push(char *command, history_t *list);
-char *load_down(history_t **list);
-char *load_up(history_t **list);
+char *load_down(history_t *list);
+char *load_up(history_t *list);
 void history_write(history_t *history);
 
 

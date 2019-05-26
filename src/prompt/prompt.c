@@ -44,9 +44,9 @@ char *prompt(char *display)
             clrscr(key);
         update_prompt(str, display, &pos, &w);
     } while ((key = get_key()) != '\n');
+    write(1, "\n", 1);
     pos.historic = history_push(str, pos.historic);
     history_write(pos.historic);
-    write(1, "\n", 1);
     return str;
 }
 

@@ -41,11 +41,10 @@ int path_handle(s_element *node)
 
 int exec_path(s_element *node, exec_t *exec)
 {
-    char *path = strdup(getenv("PATH"));
+    char *path = strdup((getenv("PATH")) ? getenv("PATH") :
+        "/bin/:/usr/bin:/usr/sbin");
     char *tmp;
 
-    if (!path)
-        path = my_strdup("/bin/:/usr/bin:/usr/sbin");
     tmp = strtok(path, ":");
     if (path_handle(node))
         exit(1);

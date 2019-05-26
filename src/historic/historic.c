@@ -19,79 +19,65 @@ void history_write(history_t *history)
         pstrmerge(getenv("HOME"), ".42sh_history") : ".42sh_history";
     int fd = open(filename, O_CREAT | O_WRONLY, 0666);
     FILE *file = fopen(filename, "wr");
-    history_t *head = history;
 
     if (file == NULL)
         return;
-    while (head) {
-        if (head->command)
-            fprintf(file, "%s\n", head->command);
-        head = head->next;
+    for (int i = 0; i < history->size; i++) {
+        fprintf(file, "%s\n", history->commands[i]);
     }
     fclose(file);
 }
 
-char *load_up(history_t **list)
+char *load_up(history_t *history)
 {
-    history_t *tmp = *list;
-
-    if (tmp->next) {
-        *list = tmp->next;
-        return tmp->next->command;
-    }
-    return tmp->command;
+    if (history->pos > 0) {
+        history->pos -= 1;
+        return history->commands[history->pos];
+    } else
+        return "";
 }
 
-char *load_down(history_t **list)
+char *load_down(history_t *history)
 {
-    history_t *tmp = *list;
-
-    if (tmp->prev) {
-        *list = tmp->prev;
-        return tmp->prev->command;
-    }
-    return tmp->command;
+    if (history->pos < history->size - 1) {
+        history->pos += 1;
+        return history->commands[history->pos];
+    } else
+        return "";
 }
 
-history_t *history_push(char *command, history_t *list)
+history_t *history_push(char *command, history_t *history)
 {
-    history_t *new;
-
-    if (!command || strlen(command) == 0)
-        command = strdup("\n");
-    new = malloc(sizeof(history_t));
-    if (command[strlen(command) - 1] == '\n')
+    if (strlen(command) && command[strlen(command) - 1] == '\n')
         command[strlen(command) - 1] = 0;
-    new->command = command;
-    new->next = list;
-    return new;
+    history->size += 1;
+    history->commands = realloc(history->commands, sizeof(char *) *
+        (history->size + 1));
+    history->commands[history->size] = NULL;
+    history->commands[history->size - 1] = strdup(command);
+    return history;
 }
 
 history_t *history_init(void)
 {
-    history_t *history = NULL;
+    history_t *history = malloc(sizeof(history_t));
     char *filename = (getenv("HOME")) ?
         pstrmerge(getenv("HOME"), ".42sh_history") : ".42sh_history";
-    //int fd = open(filename, O_RDONLY);
     FILE *file = fopen(filename, "r");
     char *line = NULL;
     history_t *tmp = NULL;
+    size_t len = 0;
+    size_t nread;
 
+    history->commands = malloc(sizeof(char *));
+    history->size = 0;
+    history->pos = 0;
+    history->commands[0] = NULL;
     if (!file)
-        return NULL;
-    // if (fd == -1)
-    //     return NULL;
-    //while ((line = get_next_line(fd)) != NULL) {
-    while (getline(&line, NULL, file) != -1) {
-        history = history_push(line, history);
-        if (tmp)
-            tmp->prev = history;
-        tmp = history;
+        return history;
+    while ((nread = getline(&line, &len, file)) != -1) {
+        history_push(line, history);
     }
-    line = calloc(2, 2);
-    history = history_push(line, history);
-    history->prev = NULL;
-    if (tmp)
-        tmp->prev = history;
+    history->pos = history->size;
     return history;
 }

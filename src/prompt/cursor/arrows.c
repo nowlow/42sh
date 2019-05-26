@@ -25,14 +25,14 @@ char *right_arrow(char *str, cpos_t *pos, winsize_t *w)
 
 char *up_arrow(char *str, cpos_t *pos, winsize_t *w)
 {
-    str = load_up(&pos->historic);
-    pos->string = strlen(str) + 1;
+    str = load_up(pos->historic);
+    pos->string = (str) ? strlen(str) + 1 : 1;
     return str;
 }
 
 char *down_arrow(char *str, cpos_t *pos, winsize_t *w)
 {
-    str = load_down(&pos->historic);
-    pos->string = strlen(str) + 1;
+    str = load_down(pos->historic);
+    pos->string = (str) ? strlen(str) + 1 : 1;
     return str;
 }

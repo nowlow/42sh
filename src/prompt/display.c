@@ -13,7 +13,7 @@
 
 void clrscr(char key)
 {
-    char *str = "\e[1;1H\e[2J";
+    char *str = (key == 12) ? "\e[1;1H\e[2J" : "\n";
 
     write(1, str, strlen(str));
 }
