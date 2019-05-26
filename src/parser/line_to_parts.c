@@ -27,12 +27,11 @@ char *get_cmd(char *line, char **new_line, char separator)
 
     for (int depth = 0; (depth != 0 || in_marks || line[size] != separator);
         size++) {
-        if (!line[size]) {
+        if (!line[size])
             if (depth)
                 return NULL;
             else
                 break;
-        }
         update_depth(line[size], &depth, &in_marks);
     }
     result = malloc(sizeof(char) * (size + 1));
@@ -53,12 +52,11 @@ char *get_operator(char *line, char **new_line, char separator)
 
     for (int depth = 0; line[size] == separator && !(size >= 2 &&
         separator == ';'); size++) {
-        if (!line[size]) {
+        if (!line[size])
             if (depth)
                 return NULL;
             else
                 break;
-        }
         update_depth(line[size], &depth, &in_marks);
     }
     result = malloc(sizeof(char) * (size + 1));
