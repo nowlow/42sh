@@ -51,4 +51,8 @@ size_t size_to_next_break(char *line, char *cbreak);
 
 size_t count_breaks(char *line, char *cbreak);
 
+int find_env(char *str, char **env);
+
+int len_env(char *str);
+
 #endif /* !UTILS_H_ */

@@ -43,6 +43,7 @@ SRC					=					src/main.c								\
 										src/prompt/strings.c					\
 										src/prompt/termios.c					\
 										src/utils/errors.c						\
+										src/utils/find_and_len_env.c			\
 										src/utils/paths.c						\
 										src/utils/replace_env_variables.c		\
 										src/utils/string/count_cols.c			\

@@ -21,8 +21,8 @@ int main(int argc, char **argv, char **env)
     ret = run_shell(shell);
     if (isatty(0))
         shell->term = get_termios();
-    shell_destroy(shell);
-    if (isatty(0))
+    if (isatty(0) && shell->term)
         reset_term(shell->term);
+    shell_destroy(shell);
     return ret;
 }
