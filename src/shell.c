@@ -28,7 +28,8 @@ int pre_exec(shell_t *shell)
 
     if (!file)
         return 0;
-    while ((nread = getline(&line, &len, file)) != -1 && shell->will_exit != 1) {
+    while ((nread = getline(&line, &len, file)) != -1 &&
+        shell->will_exit != 1) {
         if (line[strlen(line) - 1] == '\n')
             line[strlen(line) - 1] = 0;
         if (line[0] != '#')

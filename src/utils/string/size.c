@@ -26,8 +26,7 @@ size_t count_breaks(char *line, char *cbreak)
 
     for (; line[pos]; pos++) {
         for (size_t i = 0; cbreak[i]; i++) {
-            if (line[pos] == cbreak[i])
-                passed = true;
+            passed = (line[pos] == cbreak[i]) ? true : passed;
         }
         if (!passed)
             return pos;
