@@ -31,7 +31,7 @@ void init_pipe(exec_t *exec, int is_left, int *fds)
 
 void close_pipe(exec_t *exec, int is_left, int *fds)
 {
-    if (exec->op == TYPE_PIPE && !is_left) {
+    if (exec->op_type == TYPE_PIPE && !is_left) {
         close(exec->fds[1]);
         close(exec->fds[0]);
     }
@@ -39,25 +39,22 @@ void close_pipe(exec_t *exec, int is_left, int *fds)
     exec->fds[1] = fds[1];
 }
 
-int execute_command(s_element *node, exec_t *exec, int is_left)
+int execute_command(s_element *node, exec_t *exec, int is_left, shell_t *shell)
 {
     int fds[2] = {0, 0};
     pid_t pid = 0;
     int ret;
 
-    if (exec->op == TYPE_PIPE && is_left)
+    if (exec->op_type == TYPE_PIPE && is_left)
         pipe(fds);
     pid = fork();
     if (pid == 0) {
-        if (exec->op == TYPE_PIPE)
+        if (exec->op_type == TYPE_PIPE)
             init_pipe(exec, is_left, fds);
         node->data.command->argv = replace_env_vars(node->data.command->argv);
         exec_path(node, exec);
     } else {
-        if (!is_left && !exec->fds[0])
-            close(fds[0]);
-        if (exec->fds[0])
-            close(exec->fds[1]);
+        end_before_wait(exec, node, fds, shell);
         wait(&ret);
     }
     close_pipe(exec, is_left, fds);
@@ -70,12 +67,14 @@ int recursive_exec(s_element *node, exec_t *exec, shell_t *shell, int is_left)
     int right = 0;
 
     if (node->type == TYPE_OPERATOR) {
-        exec->op = node->data.operator->operator_type;
+        exec->op = node;
+        exec->op_type = node->data.operator->operator_type;
         left = recursive_exec(node->data.operator->a, exec, shell, 1);
-        right = recursive_exec(node->data.operator->b, exec, shell, 0);
+        if (node->data.operator->operator_type != TYPE_PIPE)
+            right = recursive_exec(node->data.operator->b, exec, shell, 0);
     } else {
         if (get_builtin_cmd(node->data.command->argv) == -1) {
-            exec->ret = execute_command(node, exec, is_left);
+            exec->ret = execute_command(node, exec, is_left, shell);
             exec->ret = child_error_handle(exec->ret, shell);
         } else
             exec->ret = execwb(node->data.command, shell);

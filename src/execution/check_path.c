@@ -59,3 +59,17 @@ int exec_path(s_element *node, exec_t *exec)
     dprintf(2, "%s: Command not found.\n", node->data.command->argv[0]);
     exit(1);
 }
+
+void end_before_wait(exec_t *exec, s_element *node, int fds[2], shell_t *shell)
+{
+    int is_left = (node == exec->op->data.operator->a);
+
+    if (exec->op_type == TYPE_PIPE && is_left) {
+        close_pipe(exec, is_left, fds);
+        recursive_exec(exec->op->data.operator->b, exec, shell, 0);
+    }
+    if (!is_left && !exec->fds[0])
+        close(fds[0]);
+    if (exec->fds[0])
+        close(exec->fds[1]);
+}

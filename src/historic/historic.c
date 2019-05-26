@@ -1,116 +1,87 @@
 /*
-** EPITECH PROJECT, 2018
-** Untitled (Workspace)
+** EPITECH PROJECT, 2019
+** PSU_42sh_2018
 ** File description:
-** main.c
+** historic
 */
 
-#include <stdio.h>
-#include <stdlib.h>
 #include "historic.h"
-#include <stdio.h>
-#include <stdlib.h>
 #include <sys/types.h>
 #include <sys/stat.h>
-#include <string.h>
 #include <fcntl.h>
+#include <stdio.h>
+#include "utils.h"
 
-void create_file(void)
+void history_write(history_t *history)
 {
-    int fd;
-    FILE *file = fopen("historic.txt", "wxr");
+    char *filename = (getenv("HOME")) ?
+        pstrmerge(getenv("HOME"), ".42sh_history") : ".42sh_history";
+    int fd = open(filename, O_CREAT | O_WRONLY, 0666);
+    FILE *file = fopen(filename, "wr");
+    history_t *head = history;
+
+    if (file == NULL)
+        return;
+    while (head) {
+        if (head->command[0])
+            fprintf(file, "%s\n", head->command);
+        head = head->next;
+    }
     fclose(file);
 }
 
-char *open_the_file(char const *filepath)
+char *load_up(history_t **list)
 {
-    struct stat buf;
-    int fd;
-    long long len_max;
-    char *buffer;
+    history_t *tmp = *list;
 
-    fd = open(filepath, O_RDONLY);
-    if (stat(filepath, &buf) == -1)
-        return NULL;
-    len_max = buf.st_size;
-    buffer = malloc(sizeof(char) * (len_max + 1));
-    if (!buffer)
-        return NULL;
-    read(fd, buffer, len_max);
-    buffer[len_max] = '\0';
-    close(fd);
-    return (buffer);
+    if (tmp->next) {
+        *list = tmp->next;
+        return tmp->next->command;
+    }
+    return tmp->command;
 }
 
-void add_to_buffer(char *command)
+char *load_down(history_t **list)
 {
-    char *buffer = open_the_file("historic.txt");
-    FILE *file = fopen("historic.txt", "wr");
+    history_t *tmp = *list;
 
-    buffer = strcat(buffer, command);
-    fprintf(file, "%s\n", buffer);
-    fclose(file);
+    if (tmp->prev) {
+        *list = tmp->prev;
+        return tmp->prev->command;
+    }
+    return tmp->command;
 }
 
-// history_t *add_to_historic(char *command, history_t *list)
-// {
-//     add_to_buffer(command);
-//     while (list->empty == false && list->number < 99)
-//         list = list->next;
-//     if (list->empty == true && list->number < 99) {
-//         list->command = command;
-//         list->empty = false;
-//     }
-//     if (list->number == 99) {
-//         list = manage_linked_list(list);
-//     }
-//     return (list);
-// }
+history_t *history_push(char *command, history_t *list)
+{
+    history_t *new = malloc(sizeof(history_t));
 
-// void print_list(history_t *list)
-// {
-//     list = list->head;
+    new->command = command;
+    new->next = list;
+    return new;
+}
 
-//     while (list->empty == false) {
-//         printf("list number : %d command : %s\n", list->number, list->command);
-//         list = list->next;
-//     }
-// }
+history_t *history_init(void)
+{
+    history_t *history = NULL;
+    char *filename = (getenv("HOME")) ?
+        pstrmerge(getenv("HOME"), ".42sh_history") : ".42sh_history";
+    int fd = open(filename, O_RDONLY);
+    char *line = NULL;
+    history_t *tmp = NULL;
 
-// history_t *print_historic(history_t *list, int nbr)
-// {
-//     if (nbr == 1) {
-//         if (list &&
-//         list->number < 98 &&
-//         list->next->command != NULL)
-//             return (list->next);
-//         else
-//             return (list);
-//     }
-//     else {
-//         if (list->number > 1)
-//             return (list->previous);
-//         else
-//             return (list->head);
-//     }
-//     return (list);
-// }
-
-// int main (void)
-// {
-//     char *command = NULL;
-//     char *prompt = "PROMPT ->";
-//     history_t *list = create_list();
-
-//     while (1) {
-//         my_putstr(prompt);
-//         command = get_next_line(0);
-//         if (command[0] == 'h')
-//             list = print_historic(list, 1);
-//         else if (command[0] == 'd')
-//             list = print_historic(list, 0);
-//         else
-//             list = add_to_historic(command, list);
-//     }
-//     return (0);
-// }
+    if (fd == -1)
+        return NULL;
+    while ((line = get_next_line(fd)) != NULL) {
+        history = history_push(line, history);
+        if (tmp)
+            tmp->prev = history;
+        tmp = history;
+    }
+    line = calloc(1, 1);
+    history = history_push(line, history);
+    history->prev = NULL;
+    if (tmp)
+        tmp->prev = history;
+    return history;
+}

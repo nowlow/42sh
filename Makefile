@@ -22,8 +22,6 @@ SRC					=					src/main.c								\
 										src/execution/exec.c					\
 										src/execution/execwb.c					\
 										src/historic/historic.c					\
-										src/historic/load_historic.c			\
-										src/historic/manage_list.c				\
 										src/parser/command_parser.c				\
 										src/parser/expression.c					\
 										src/parser/get_op.c						\
