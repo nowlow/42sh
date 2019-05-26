@@ -57,6 +57,8 @@ char *user_entry(char *display, shell_t *shell)
     size_t len = 0;
 
     if (isatty(0) && getenv("TERM")) {
+        reset_term(shell->term);
+        shell->term = get_termios();
         return prompt(display);
     }
     if (isatty(0))
