@@ -9,13 +9,14 @@
 #define STRUCTS_H_
 
 #include "aliases.h"
+#include "prompt/termkey.h"
 
 typedef struct shell shell_t;
 
 struct shell {
     int will_exit;
     alias_t **aliases;
-    int is_a_tty;
+    termios_t *term;
 };
 
 #endif /* !STRUCTS_H_ */

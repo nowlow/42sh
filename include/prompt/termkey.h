@@ -8,7 +8,7 @@
 #ifndef TERMKEY_H_
 #define TERMKEY_H_
 
-#include "prompt.h"
+typedef struct termios termios_t;
 
 termios_t *get_termios(void);
 int reset_term(termios_t *term);

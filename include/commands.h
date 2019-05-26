@@ -33,4 +33,6 @@ int whereis(s_command *cmd, shell_t *shell);
 
 int alias(s_command *cmd, shell_t *shell);
 
+int where(s_command *cmd, shell_t *shell);
+
 #endif /* !COMMANDS_H_ */

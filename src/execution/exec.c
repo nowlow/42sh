@@ -13,6 +13,7 @@
 #include "shell.h"
 #include "exec/exec.h"
 #include "exec/redirection.h"
+#include "prompt/termkey.h"
 
 void init_pipe(exec_t *exec, int is_left, int *fds)
 {
@@ -91,5 +92,9 @@ int exec_line(char *line, shell_t *shell)
     exec_t exec = {{0, 0}, 0};
 
     recursive_exec(command, &exec, shell, 1);
+    if (isatty(0)) {
+        reset_term(shell->term);
+        shell->term = get_termios();
+    }
     return exec.ret;
 }
