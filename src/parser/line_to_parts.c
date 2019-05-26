@@ -51,7 +51,8 @@ char *get_operator(char *line, char **new_line, char separator)
     char *result;
     int in_marks = 0;
 
-    for (int depth = 0; line[size] == separator && !(size >= 2 && separator == ';'); size++) {
+    for (int depth = 0; line[size] == separator && !(size >= 2 &&
+        separator == ';'); size++) {
         if (!line[size]) {
             if (depth)
                 return NULL;
