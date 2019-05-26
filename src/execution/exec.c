@@ -6,12 +6,13 @@
 */
 
 #include <stdio.h>
-#include "utils.h"
-#include "shell.h"
+#include <sys/wait.h>
 #include <sys/types.h>
 #include <unistd.h>
-#include <sys/wait.h>
+#include "utils.h"
+#include "shell.h"
 #include "exec/exec.h"
+#include "exec/redirection.h"
 
 void init_pipe(exec_t *exec, int is_left, int *fds)
 {
@@ -51,6 +52,8 @@ int execute_command(s_element *node, exec_t *exec, int is_left, shell_t *shell)
     if (pid == 0) {
         if (exec->op_type == TYPE_PIPE)
             init_pipe(exec, is_left, fds);
+        else if (node->data.command->redirections[0])
+            init_redirection(node);
         node->data.command->argv = replace_env_vars(node->data.command->argv);
         exec_path(node, exec);
     } else {

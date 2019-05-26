@@ -22,6 +22,7 @@ SRC					=					src/main.c								\
 										src/execution/exec_error.c				\
 										src/execution/exec.c					\
 										src/execution/execwb.c					\
+										src/execution/redirection.c				\
 										src/historic/historic.c					\
 										src/parser/command_parser.c				\
 										src/parser/expression.c					\
