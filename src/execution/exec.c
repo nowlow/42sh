@@ -61,7 +61,7 @@ int execute_command(s_element *node, exec_t *exec, int is_left)
         wait(&ret);
     }
     close_pipe(exec, is_left, fds);
-    return ret % 255;
+    return ret;
 }
 
 int recursive_exec(s_element *node, exec_t *exec, shell_t *shell, int is_left)
@@ -78,6 +78,7 @@ int recursive_exec(s_element *node, exec_t *exec, shell_t *shell, int is_left)
             exec->ret = execute_command(node, exec, is_left);
         else
             exec->ret = execwb(node->data.command, shell);
+        exec->ret = child_error_handle(exec->ret, shell);
     }
     return 0;
 }

@@ -18,6 +18,7 @@ SRC					=					src/main.c								\
 										src/commands/unset_env.c				\
 										src/commands/whereis.c					\
 										src/execution/check_path.c				\
+										src/execution/exec_error.c				\
 										src/execution/exec.c					\
 										src/execution/execwb.c					\
 										src/historic/historic.c					\

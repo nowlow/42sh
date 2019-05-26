@@ -23,5 +23,6 @@ int exec_line(char *line, shell_t *shell);
 int exec_path(s_element *node, exec_t *exec);
 int execwb(s_command *command, shell_t *shell);
 int get_builtin_cmd(char **argv);
+int child_error_handle(int child, shell_t *shell);
 
 #endif /* !EXEC_H_ */

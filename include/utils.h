@@ -27,6 +27,8 @@ char **replace_env_vars(char **tb);
 /// concatenates 2 string in a third
 char *strmerge(char *s1, char *s2);
 
+char *pstrmerge(char *s1, char *s2);
+
 /// returns a char **'s lenght
 int double_array_len(char **var);
 

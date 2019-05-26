@@ -10,6 +10,7 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <stdio.h>
+#include "utils.h"
 
 // history_t *create_list(void)
 // {
@@ -51,8 +52,10 @@
 
 void history_write(history_t *history)
 {
-    int fd = open("history.txt", O_CREAT | O_WRONLY, 0666);
-    FILE *file = fopen("history.txt", "wr");
+    char *filename = (getenv("HOME")) ?
+        pstrmerge(getenv("HOME"), ".42sh_history") : ".42sh_history";
+    int fd = open(filename, O_CREAT | O_WRONLY, 0666);
+    FILE *file = fopen(filename, "wr");
     history_t *head = history;
 
     if (file == NULL)
@@ -99,7 +102,9 @@ history_t *history_push(char *command, history_t *list)
 history_t *history_init(void)
 {
     history_t *history = NULL;
-    int fd = open("history.txt", O_RDONLY);
+    char *filename = (getenv("HOME")) ?
+        pstrmerge(getenv("HOME"), ".42sh_history") : ".42sh_history";
+    int fd = open(filename, O_RDONLY);
     char *line = NULL;
     history_t *tmp = NULL;
 
