@@ -223,6 +223,7 @@ echo "└"
 echo -e "┌⚗ Pipes:"
 echo "│"
 test_command_display "cat Makefile | grep --color=never SRC"
+test_command_display "echo coucou | cat | cat -e | cat -e | grep c"
 echo "└"
 
 # ================================================== END OF TESTS ================================================== #

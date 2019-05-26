@@ -71,12 +71,12 @@ void end_before_wait(exec_t *exec, s_element *node, int inf[3], shell_t *shell)
     int is_left = inf[2];
     int fds[2] = {inf[0], inf[1]};
 
+    if (exec->op_type == TYPE_PIPE &&!is_left && !exec->fds[0])
+        close(fds[0]);
+    if (exec->op_type == TYPE_PIPE && exec->fds[0])
+        close(exec->fds[1]);
     if (exec->op_type == TYPE_PIPE && is_left) {
         close_pipe(exec, is_left, fds);
         recursive_exec(exec->op->data.operator->b, exec, shell, 0);
     }
-    if (exec->op_type == TYPE_PIPE && !is_left && !exec->fds[0])
-        close(fds[0]);
-    if (exec->op_type == TYPE_PIPE && exec->fds[0])
-        close(exec->fds[1]);
 }
