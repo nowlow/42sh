@@ -21,7 +21,9 @@ typedef struct s_command
 typedef enum operator_type
 {
     TYPE_SEPARATOR,
-    TYPE_PIPE
+    TYPE_PIPE,
+    TYPE_OR,
+    TYPE_WRONG
 } operator_type_t;
 
 typedef struct s_operator
