@@ -74,11 +74,11 @@ int recursive_exec(s_element *node, exec_t *exec, shell_t *shell, int is_left)
         left = recursive_exec(node->data.operator->a, exec, shell, 1);
         right = recursive_exec(node->data.operator->b, exec, shell, 0);
     } else {
-        if (get_builtin_cmd(node->data.command->argv) == -1)
+        if (get_builtin_cmd(node->data.command->argv) == -1) {
             exec->ret = execute_command(node, exec, is_left);
-        else
+            exec->ret = child_error_handle(exec->ret, shell);
+        } else
             exec->ret = execwb(node->data.command, shell);
-        exec->ret = child_error_handle(exec->ret, shell);
     }
     return 0;
 }
