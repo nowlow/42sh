@@ -26,7 +26,7 @@ operator_type_t get_operator_type(char *k)
     return TYPE_SEPARATOR;
 }
 
-s_element *to_operator_elem(char **parts)
+s_element *to_operator_elem(char **parts, alias_t **aliases)
 {
     s_element *ele = malloc(sizeof(s_element));
 
@@ -41,8 +41,8 @@ s_element *to_operator_elem(char **parts)
     ele->data.operator->operator_type = get_operator_type(parts[1]);
     if (ele->data.operator->operator_type == TYPE_WRONG)
         return NULL;
-    ele->data.operator->a = parse(parts[0]);
-    ele->data.operator->b = parts_to_elem(&parts[2]);
+    ele->data.operator->a = parse(parts[0], aliases);
+    ele->data.operator->b = parts_to_elem(&parts[2], aliases);
     if (!ele->data.operator->a | !ele->data.operator->b) {
         return NULL;
     }

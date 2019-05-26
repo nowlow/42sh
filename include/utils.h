@@ -11,7 +11,7 @@
 #include <unistd.h>
 
 #define IS_NUM(c) (c >= '0' && c <= '9') ? 1 : 0
-#define IS_SPACE(x) (x == ' ' || x == '\t') ? 1 : 0
+#define IS_SPACE(x) (x == ' ' || x == 0 || x == '\t') ? 1 : 0
 
 /// returns char *'s length
 size_t my_strlen(char const *str);

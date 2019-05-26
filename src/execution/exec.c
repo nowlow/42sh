@@ -87,7 +87,7 @@ int recursive_exec(s_element *node, exec_t *exec, shell_t *shell, int is_left)
 
 int exec_line(char *line, shell_t *shell)
 {
-    s_element *command = parse(line);
+    s_element *command = parse(line, shell->aliases);
     exec_t exec = {{0, 0}, 0};
 
     recursive_exec(command, &exec, shell, 1);

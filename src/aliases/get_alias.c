@@ -13,9 +13,9 @@ alias_t *get_alias(char *command, alias_t **aliases)
 {
     size_t command_len = 0;
 
-    for (int i = 0; aliases[i]; i++) {
+    for (int i = 0; aliases && aliases[i]; i++) {
         command_len = strlen(aliases[i]->alias);
-        if (strncmp(command, aliases[i]->alias, command_len) == 0 &&
+        if (strncmp(command, aliases[i]->alias, command_len - 1) == 0 &&
             IS_SPACE(command[command_len]))
                 return aliases[i];
     }

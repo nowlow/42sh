@@ -9,7 +9,7 @@
 #include <stdio.h>
 #include "parser/parser.h"
 
-s_element *parse_ok(char *line, char separator)
+s_element *parse_ok(char *line, char separator, alias_t **aliases)
 {
     char **parts = line_to_parts(line, separator);
     int n_part;
@@ -19,7 +19,7 @@ s_element *parse_ok(char *line, char separator)
         dprintf(2, "Invalid null command. %s\n", parts[0]);
         return NULL;
     }
-    return parts_to_elem(parts);
+    return parts_to_elem(parts, aliases);
 }
 
 int is_only_parenthesis(char *line)

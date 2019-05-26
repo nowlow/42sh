@@ -39,7 +39,7 @@ char get_separator(char *line)
     return 0;
 }
 
-s_element *parts_to_elem(char **parts)
+s_element *parts_to_elem(char **parts, alias_t **aliases)
 {
     int n_part;
 
@@ -47,11 +47,11 @@ s_element *parts_to_elem(char **parts)
     if (n_part == 0)
         return NULL;
     if (n_part == 1) {
-        return parse(parts[0]);
+        return parse(parts[0], aliases);
     }
     if (!(strcmp(parts[1], ";") ^ strcmp(parts[1], "|")) || n_part < 3)
         return NULL;
-    return to_operator_elem(parts);
+    return to_operator_elem(parts, aliases);
 }
 
 char *remove_parenthesis(char *line)
@@ -76,7 +76,7 @@ char *remove_parenthesis(char *line)
     return line;
 }
 
-s_element *parse(char *line)
+s_element *parse(char *line, alias_t **aliases)
 {
     int separator;
 
@@ -85,10 +85,10 @@ s_element *parse(char *line)
     separator = get_separator(line);
     if (separator == 0) {
         if (is_only_parenthesis(line))
-            return parse(remove_parenthesis(line));
+            return parse(remove_parenthesis(line), aliases);
         else
-            return to_command_elem(line);
+            return to_command_elem(line, aliases);
     }
     else
-        return parse_ok(line, separator);
+        return parse_ok(line, separator, aliases);
 }

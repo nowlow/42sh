@@ -44,7 +44,7 @@ void get_argc(s_command *cmd)
     cmd->argc = argc;
 }
 
-s_element *to_command_elem(char *expression)
+s_element *to_command_elem(char *expression, alias_t **aliases)
 {
     s_element *ele = malloc(sizeof(s_element));
 
@@ -60,6 +60,7 @@ s_element *to_command_elem(char *expression)
     ele->data.command->redirections = init_tab(&ele->data.command->n_redir);
     ele->data.command->n_sources = 10;
     ele->data.command->sources = init_tab(&ele->data.command->n_sources);
+    expression = alias_handle(expression, aliases);
     parse_command(ele, expression);
     get_argc(ele->data.command);
     return ele;

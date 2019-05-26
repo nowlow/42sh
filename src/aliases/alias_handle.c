@@ -18,7 +18,7 @@ char *transform_command(char *command, alias_t *alias)
     char *final = malloc(sizeof(char) * (size + 1));
 
     if (!cw_cmd || !cw_cmd[0])
-        return command;
+        return alias->command;
     final = strcpy(final, alias->command);
     final = strcat(final, cw_cmd);
     return final;
