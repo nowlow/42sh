@@ -27,22 +27,28 @@ s_element *parts_to_elem(char **parts)
 char get_separator(char *line)
 {
     int depth = 0;
+    int in_marks = 0;
 
     for (int i = 0; line[i]; i++) {
         if (line[i] == '(')
             depth++;
         if (line[i] == ')')
             depth--;
-        if (depth == 0 && line[i] == ';')
+        if (line[i] == '"')
+            in_marks = !in_marks;
+        if (depth == 0 && !in_marks && line[i] == ';')
             return ';';
     }
     depth = 0;
+    in_marks = 0;
     for (int i = 0; line[i]; i++) {
         if (line[i] == '(')
             depth++;
         if (line[i] == ')')
             depth--;
-        if (depth == 0 && line[i] == '|')
+        if (line[i] == '"')
+            in_marks = !in_marks;
+        if (depth == 0 && !in_marks && line[i] == '|')
             return '|';
     }
     return 0;
