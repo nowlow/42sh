@@ -19,9 +19,6 @@ s_element *parse_ok(char *line, char separator)
         dprintf(2, "Invalid null command. %s\n", parts[0]);
         return NULL;
     }
-    for (int i = 0; parts[i]; i++) {
-        printf("%d: %s\n", i, parts[i]);
-    }
     return parts_to_elem(parts);
 }
 

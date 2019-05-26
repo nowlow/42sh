@@ -5,11 +5,15 @@
 ** replace_env_variables
 */
 
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+
 static int find_env(char *str, char **env)
 {
+    if (str == NULL || str[0] == '\0')
+        return (-1);
     for (int i = 0; env[i] != NULL; i++)
         if (strncmp(str, env[i], strlen(str)) == 0)
             return (i);
@@ -34,13 +38,35 @@ static char *cut_env(char **env, char *str)
     return (tmp);
 }
 
+static int check_maj(char const c)
+{
+    if (c >= 'A' &&  c <= 'Z')
+        return (0);
+    return (1);
+}
+
 static char *cut_dollar(char *str, int i)
 {
     char *tmp = malloc(sizeof(char) * (strlen(str) + 1));
 
     if (!tmp)
         return (NULL);
-    for (int j = 0; str[i] != '\0'; j++, i++) {
+    for (int j = 0; str[i] != '\0' && check_maj(str[i]) == 0; j++, i++) {
+        tmp[j] = str[i];
+        tmp[j + 1] = '\0';
+    }
+    return (tmp);
+}
+
+static char *cut_dollar_and_env(char *str, int i)
+{
+    char *tmp = malloc(sizeof(char) * (strlen(str) + 1));
+
+    if (!tmp)
+        return (NULL);
+    while (str[i] != '\0' && check_maj(str[i]) == 0)
+        i++;
+    for (int j = 0; str[i] != '\0'; i++, j++) {
         tmp[j] = str[i];
         tmp[j + 1] = '\0';
     }
@@ -50,13 +76,15 @@ static char *cut_dollar(char *str, int i)
 static char *change_tab(char **tab, int i, int j, char **env)
 {
     char *str = NULL;
+    char *tmp = NULL;
 
     if (tab[i][j] == '$') {
         str = cut_dollar(tab[i], j + 1);
         str = cut_env(env, str);
-        if (str == NULL)
+        tmp = cut_dollar_and_env(tab[i], j + 1);
+        if (str == NULL || tmp == NULL)
             return (tab[i]);
-        tab[i] = str;
+        tab[i] = strcat(str, tmp);
     }
     return (tab[i]);
 }
