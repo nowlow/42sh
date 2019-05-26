@@ -33,6 +33,14 @@ SRC					=					src/main.c								\
 										src/parser/str_tab_resize.c				\
 										src/parser/parse_operator.c				\
 										src/parser/parse_command.c				\
+										src/prompt/cursor/arrows.c				\
+										src/prompt/cursor/commands.c			\
+										src/prompt/display.c					\
+										src/prompt/key.c						\
+										src/prompt/prompt.c						\
+										src/prompt/str_key_edit.c				\
+										src/prompt/strings.c					\
+										src/prompt/termios.c					\
 										src/utils/errors.c						\
 										src/utils/paths.c						\
 										src/utils/replace_env_variables.c		\
@@ -44,14 +52,6 @@ SRC					=					src/main.c								\
 										src/utils/string/my_strdup.c			\
 										src/utils/string/size.c					\
 										src/utils/string/string.c				\
-										src/prompt/display.c					\
-										src/prompt/key.c						\
-										src/prompt/prompt.c						\
-										src/prompt/str_key_edit.c				\
-										src/prompt/strings.c					\
-										src/prompt/termios.c					\
-										src/prompt/cursor/arrows.c				\
-										src/prompt/cursor/commands.c			\
 
 OBJ					=					$(SRC:.c=.o)
 
