@@ -59,7 +59,7 @@ OBJ					=					$(SRC:.c=.o)
 
 NAME				=					42sh
 
-CFLAGS				=					-Iinclude #-Wall -Wextra
+CFLAGS				=					-Iinclude -g3 #-Wall -Wextra
 
 LIBS				=					-lncurses
 

@@ -92,6 +92,8 @@ int exec_line(char *line, shell_t *shell)
     s_element *command = parse(line, shell->aliases);
     exec_t exec = {{0, 0}, 0};
 
+    if (!command)
+        return 1;
     recursive_exec(command, &exec, shell, 1);
     return exec.ret;
 }
