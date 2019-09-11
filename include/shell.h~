@@ -21,4 +21,15 @@
 #include "errors.h"
 #include "paths.h"
 
+#if defined(__APPLE__)
+
+#include <stdio.h>
+
+extern char** environ;
+
+#undef __environ
+#define __environ environ
+
+#endif
+
 #endif /* !SHELL_H_ */
